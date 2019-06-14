@@ -6,8 +6,8 @@ Jump Lists were introduced in Windows 7
 
 There are multiple variants of Jump Lists:
 
-* automatic (autodest, or *.automaticDestinations-ms) files
-* custom (custdest, or *.customDestinations-ms) files
+* AutomaticDestinations (autodest, or *.automaticDestinations-ms) files
+* CustomDestinations (custdest, or *.customDestinations-ms) files
 * Explorer StartPage2 ProgramsCache Registry values
 
 ### AutomaticDestinations
@@ -26,18 +26,13 @@ The CustomDestinations Jump List files are located in the user profile path:
 C:\Users\%USERNAME%\AppData\Roaming\Microsoft\Windows\Recent\CustomDestinations\*.customDestinations-ms
 ```
 
-### Explorer ProgramsCache
+### Explorer StartPage2 ProgramsCache
 
-The Explorer ProgramsCache Jump Lists are stored in the Windows Registry:
-
-```
-Key: HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\StartPage
-Value(s): ProgramsCache
-```
+The Explorer StartPage2 ProgramsCache Jump Lists are stored in the Windows Registry:
 
 ```
 Key: HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\StartPage2
-Value(s): ProgramsCache, ProgramsCacheSMP, ProgramsCacheTBP
+Value(s): ProgramsCacheSMP, ProgramsCacheTBP
 ```
 
 ### References:
