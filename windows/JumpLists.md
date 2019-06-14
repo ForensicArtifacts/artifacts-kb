@@ -6,8 +6,8 @@ Jump Lists were introduced in Windows 7
 
 There are multiple variants of Jump Lists:
 
-* AutomaticDestinations (autodest, or *.automaticDestinations-ms) files
-* CustomDestinations (custdest, or *.customDestinations-ms) files
+* AutomaticDestinations (*.automaticDestinations-ms) files
+* CustomDestinations (*.customDestinations-ms) files
 * Explorer StartPage2 ProgramsCache Registry values
 
 ### AutomaticDestinations
