@@ -37,7 +37,7 @@ Value(s): ProgramsCache
 
 ```
 Key: HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\StartPage2
-Value(s): ProgramsCacheSMP, ProgramsCacheTBP
+Value(s): ProgramsCache, ProgramsCacheSMP, ProgramsCacheTBP
 ```
 
 ### References:
