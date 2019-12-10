@@ -1,4 +1,4 @@
-## Digital Forensics Artifact Repository Artifact Knowledge Base
+## Digital Forensics Artifact Knowledge Base
 
 This project provides documentation accompanying [Digital Forensics Artifact Repository](https://github.com/ForensicArtifacts/artifacts).
 
