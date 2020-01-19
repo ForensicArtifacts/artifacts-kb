@@ -2,10 +2,21 @@
 
 Name | Scope | Description
 --- | --- | ---
-`%AllUsersProfile%` | System | Path of the of the "All Users" or "Common" profile directory.
+`%AllUsersProfile%` | System | Path of the of the "All Users" or "Common" profile directory
 `%APPX_PROCESS%` | User | .NET applications will attempt to load WinAppXRT.dll from %PATH%
 `%COMMONPROGRAMFILES%` | System | Path of the common program files folder
-`%COMMONPROGRAMFILES(X86)%` | System | Path of the 32-bit common program files folder
+`%COMMONPROGRAMFILES(X86)%` | System | Path of the 32-bit common program files folder on a 64-bit Windows installation
+`%ComSpec%` | System | Path of the command processor, typically "cmd.exe"
+`%DriverData%` | System | Path of the directory used for temporary state files of user-mode drivers
+`%PATH%` | System and User | Ordered list of paths of directories that will be searched on execution request without a specific path
+`%ProfilesDirectory%` | System | Path of a directory that contains the users' profile directories, typically "%SystemDrive%\Users"
+`%ProgramData%` | System | Path of the "Program Data" directory
+`%ProgramFiles%` | System | Path of the "Program Files" directory
+`%ProgramFiles(x86)%` | System | Path of the 32-bit "Program Files" directory on a 64-bit Windows installation
+`%SystemDrive%` | System | Letter of the drive in which the system directory is located, typically "C:"
+`%SystemRoot%` | System | Path of the system directory, typically "C:\Windows"
+`%TEMP%` | User |
+`%WinDir%` | System | Path of the Windows directory, typically "C:\Windows"
 
 ### References
 
