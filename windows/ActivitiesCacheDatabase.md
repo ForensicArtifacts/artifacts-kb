@@ -5,7 +5,7 @@ services usage, files opened, and websites browsed. This activity history is
 stored locally on the device in a SQLite database file:
 
 ```
-%%users.localappdata%%\ConnectedDevicesPlatform\L.%%users.username%%\ActivitiesCache.db
+C:\Users\%USERNAME%\AppData\Local\ConnectedDevicesPlatform\L.%USERNAME%\ActivitiesCache.db
 ```
 
 ### Versions
