@@ -6,5 +6,6 @@ If you want to contribute a description of an artifact definition please use the
 
 ## Contact
 
-[forensicartifacts@googlegroups.com](https://groups.google.com/forum/#!forum/forensicartifacts)
+* [forensicartifacts@googlegroups.com](https://groups.google.com/forum/#!forum/forensicartifacts)
+* Artifacts channel of [Open Source DFIR Slack](https://github.com/open-source-dfir/slack)
 
