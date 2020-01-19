@@ -35,10 +35,8 @@ Key: HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\StartP
 Value(s): ProgramsCacheSMP, ProgramsCacheTBP
 ```
 
-### References:
+### References
 
-* [ForensicsWiki: Jump Lists](https://forensicswiki.org/wiki/Jump_Lists)
+* [ForensicsWiki: Jump Lists](https://forensicswiki.xyz/wiki/index.php?title=Jump_Lists)
 * [dtFormats: Jump lists format](https://github.com/libyal/dtformats/blob/master/documentation/Jump%20lists%20format.asciidoc)
 * [WinReg-KB: Programs Cache values](https://github.com/libyal/winreg-kb/blob/master/documentation/Programs%20Cache%20values.asciidoc)
-
-### Test versions
