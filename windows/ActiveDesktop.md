@@ -3,6 +3,8 @@
 Active Desktop was a feature of Microsoft Internet Explorer 4.0's that added
 support for HTML content on the desktop, along with other features.
 
+Malware is known to use Active Desktop settings and components for persitence.
+
 ### Settings
 
 The Active Desktop settings can be found in the Windows Registry key:
