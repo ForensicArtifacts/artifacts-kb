@@ -66,7 +66,7 @@ Where the $EXTENSION contains the identifier of the extension such as
 
 ### References
 
-* [Google Chrome](https://forensicswiki.org/wiki/Google_Chrome), by Forensics Wiki
+* [Forensicswiki: Google Chrome](https://forensicswiki.xyz/wiki/index.php?title=Google_Chrome)
 * [Example Google Chrome Cache files](https://github.com/dfirlabs/chrome-specimens/tree/master/specimens), by chrome-specimens project
 
 ### Test versions
