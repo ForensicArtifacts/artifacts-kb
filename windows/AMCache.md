@@ -3,14 +3,13 @@
 The AMCache is an stores metadata about program installation and execution for
 Windows Application Compatibility.
 
-It can be found on Windows 7 and Server 2008 R2 and later.
-
-The AMCache is stored in a Windows NT Registry File (REGF) format in a file
-named AMCache.hve.
+The AMCache can be found on Windows 7 and Server 2008 R2 and later in the file:
 
 ```
 C:\Windows\AppCompat\Programs\Amcache.hve 
 ```
+
+This file uses the Windows NT Registry File (REGF) format.
 
 ### References
 
