@@ -12,3 +12,4 @@ C:\Windows\AppCompat\Programs\RecentFileCache.bcf
 ### References
 
 * [ForensicsWiki: Windows Application Compatibility](https://forensicswiki.xyz/wiki/index.php?title=Windows_Application_Compatibility)
+* [RecentFileCache.bcf format](https://github.com/libyal/assorted/blob/master/documentation/RecentFileCache.bcf%20format.asciidoc)
