@@ -1,0 +1,12 @@
+# Files to ignore by git
+
+# Back-up files
+*~
+*.swp
+
+# Specific auto-generated build files
+/build
+/dist
+
+# Tests files
+.tox
