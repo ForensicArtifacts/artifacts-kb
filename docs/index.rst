@@ -13,6 +13,7 @@ The source code is available from the `project page <https://github.com/Forensic
 .. toctree::
    :maxdepth: 2
 
+   sources/webbrowser/index
    sources/windows/index
 
 
@@ -20,6 +21,5 @@ Indices and tables
 ==================
 
 * :ref:`genindex`
-* :ref:`modindex`
 * :ref:`search`
 

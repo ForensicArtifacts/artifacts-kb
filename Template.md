@@ -2,6 +2,12 @@
 
 This section provides a short description of the artifact.
 
+## Significance
+
+Section that explains the significance of the artficate, for example it
+is known to be used as a persistence mechanism or provides insight into user
+activity.
+
 ### Sub section
 
 Sub section that explains a specific detail of the artifact.

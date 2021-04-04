@@ -1,7 +1,9 @@
 ## Active Desktop
 
-Active Desktop was a feature of Microsoft Internet Explorer 4.0's that added
+Active Desktop was a feature of Microsoft Internet Explorer 4.0 that added
 support for HTML content on the desktop, along with other features.
+
+### Significance
 
 Malware is known to use Active Desktop settings and components for persitence.
 

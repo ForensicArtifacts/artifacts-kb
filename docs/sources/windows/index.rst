@@ -2,9 +2,17 @@
 Windows
 #######
 
-for more detail.
+Windows operating system artifacts.
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
 
-  ActiveDesktop <ActiveDesktop>
+   ActiveDesktop <ActiveDesktop>
+   Activities Cache Database <ActivitiesCacheDatabase>
+   AMCache <AMCache>
+   EnvironmentVariables <EnvironmentVariables>
+   EventLog <EventLog>
+   JumpLists <JumpLists>
+   RecentFileCache <RecentFileCache>
+   RegistryFiles <RegistryFiles>
+   System Resource Usage Monitor <System Resource Usage Monitor>
