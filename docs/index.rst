@@ -15,11 +15,3 @@ The source code is available from the `project page <https://github.com/Forensic
 
    sources/webbrowser/index
    sources/windows/index
-
-
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`search`
-

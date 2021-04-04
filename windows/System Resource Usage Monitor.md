@@ -1,11 +1,1 @@
-## System Resource Usage Monitor (SRUM)
-
-### SRUM extensions
-
-### Database
-
-### References
-
-* [System Resource Usage Monitor (SRUM) database](https://github.com/libyal/esedb-kb/blob/master/documentation/System%20Resource%20Usage%20Monitor%20(SRUM).asciidoc)
-* SRUM forensics, by Yogesh Khatri
-
+Moved to: https://artifacts-kb.readthedocs.io/en/latest/sources/windows/System%20Resource%20Usage%20Monitor.html
