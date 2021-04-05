@@ -6,18 +6,21 @@ so that they can be accessed quickly at a latter time if needed.
 ### Cache version 2
 
 On Linux Google Chrome/Chromium 8
+
 ```
 /home/$USER/.cache/chromium/Cache/
 /home/$USER/.cache/google-chrome/Cache/
 ```
 
 On Linux Google Chrome/Chromium 9 to 51
+
 ```
 /home/$USER/.cache/chromium/$PROFILE/Cache/
 /home/$USER/.cache/google-chrome/$PROFILE/Cache/
 ```
 
-On MacOS
+On Mac OS
+
 ```
 /Users/$USER/Library/Caches/Google/Chrome/$PROFILE/Cache/
 ```
@@ -26,11 +29,13 @@ Where the $PROFILE contains the name of the profile. The default profile is
 named "Default".
 
 On Windows XP
+
 ```
 C:\Documents and Settings\%USERNAME%\Local Settings\Application Data\Google\Chrome\User Data\%PROFILE%\Cache\
 ```
 
 On Windows Vista, 7
+
 ```
 C:\Users\%USERNAME%\AppData\Local\Google\Chrome\User Data\%PROFILE%\Cache\
 ```
@@ -55,6 +60,7 @@ named "Default".
 ### GPUCache
 
 On Linux Google Chrome/Chromium 68
+
 ```
 /home/$USER/.config/google-chrome/$PROFILE/GPUCache/
 /home/$USER/.config/google-chrome/$PROFILE/Storage/ext/$EXTENSION/def/GPUCache/

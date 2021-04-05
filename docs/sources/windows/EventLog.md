@@ -58,4 +58,3 @@ Windows Vista and later uses the Windows XML Event Log (EVTX) format.
 * [EventLog keys](https://winreg-kb.readthedocs.io/en/latest/sources/EventLog-keys.html)
 * [Sysinternals Sysmon unleashed](https://docs.microsoft.com/en-us/archive/blogs/motiba/sysinternals-sysmon-unleashed)
 * [Export corrupts Windows Event Log files](https://blog.fox-it.com/2019/06/04/export-corrupts-windows-event-log-files/)
-
