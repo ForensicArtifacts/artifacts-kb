@@ -10,9 +10,10 @@ Windows operating system artifacts.
    ActiveDesktop <ActiveDesktop>
    Activities Cache Database <ActivitiesCacheDatabase>
    AMCache <AMCache>
-   EnvironmentVariables <EnvironmentVariables>
+   Environment variables <EnvironmentVariables>
    EventLog <EventLog>
    JumpLists <JumpLists>
    RecentFileCache <RecentFileCache>
-   RegistryFiles <RegistryFiles>
-   System Resource Usage Monitor <System Resource Usage Monitor>
+   Registry files <RegistryFiles>
+   Services and Drivers <ServicesAndDrivers>
+   System Resource Usage Monitor <SystemResourceUsageMonitor>
