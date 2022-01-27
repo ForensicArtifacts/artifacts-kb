@@ -4,8 +4,17 @@
 import os
 import sys
 
+from sphinx.ext import apidoc
+
 from docutils import nodes
 from docutils import transforms
+
+# Change PYTHONPATH to include artifactsrc module and dependencies.
+sys.path.insert(0, os.path.abspath('..'))
+
+import artifactsrc  # pylint: disable=wrong-import-position
+
+import utils.dependencies  # pylint: disable=wrong-import-position
 
 
 # -- General configuration ------------------------------------------------
@@ -31,7 +40,13 @@ extensions = [
 # therefore we mock most imports.
 pip_installed_modules = set(['six'])
 
-autodoc_mock_imports = []
+dependency_helper = utils.dependencies.DependencyHelper(
+    dependencies_file=os.path.join('..', 'dependencies.ini'),
+    test_dependencies_file=os.path.join('..', 'test_dependencies.ini'))
+modules_to_mock = set(dependency_helper.dependencies.keys())
+modules_to_mock = modules_to_mock.difference(pip_installed_modules)
+
+autodoc_mock_imports = sorted(modules_to_mock)
 
 # Options for the Sphinx Napoleon extension, which reads Google-style
 # docstrings.
@@ -42,10 +57,10 @@ napoleon_include_special_with_doc = True
 
 # General information about the project.
 # pylint: disable=redefined-builtin
-project = 'Digital Forensics Artifacts Knowledge Base'
-copyright = 'The Digital Forensics Artifacts Knowledge Base Authors'
-version = '20210403'
-release = '20210403'
+project = 'Digital Forensics Artifact knowledge base'
+copyright = 'The Digital Forensics Artifact knowledge base authors'
+version = artifacts-kb.__version__
+release = artifacts-kb.__version__
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
@@ -81,6 +96,20 @@ linkcheck_ignore = [
 
 # This function is a Sphinx core event callback, the format of which is detailed
 # here: https://www.sphinx-doc.org/en/master/extdev/appapi.html#events
+
+# pylint: disable=unused-argument
+def RunSphinxAPIDoc(app):
+  """Runs sphinx-apidoc to auto-generate documentation.
+
+  Args:
+    app (sphinx.application.Sphinx): Sphinx application. Required by the
+        the Sphinx event callback API.
+  """
+  current_directory = os.path.abspath(os.path.dirname(__file__))
+  module_path = os.path.join(current_directory, '..', 'artifactsrc')
+  api_directory = os.path.join(current_directory, 'sources', 'api')
+  apidoc.main(['-o', api_directory, module_path, '--force'])
+
 
 class MarkdownLinkFixer(transforms.Transform):
   """Transform definition to parse .md references to internal pages."""
@@ -134,6 +163,8 @@ def setup(app):
   Args:
     app (sphinx.application.Sphinx): Sphinx application.
   """
+  # Triggers sphinx-apidoc to generate API documentation.
+  app.connect('builder-inited', RunSphinxAPIDoc)
   app.add_config_value(
       'recommonmark_config', {'enable_auto_toc_tree': True}, True)
   app.add_transform(MarkdownLinkFixer)
