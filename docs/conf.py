@@ -59,8 +59,8 @@ napoleon_include_special_with_doc = True
 # pylint: disable=redefined-builtin
 project = 'Digital Forensics Artifact knowledge base'
 copyright = 'The Digital Forensics Artifact knowledge base authors'
-version = artifacts-kb.__version__
-release = artifacts-kb.__version__
+version = artifactsrc.__version__
+release = artifactsrc.__version__
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
