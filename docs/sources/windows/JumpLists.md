@@ -39,4 +39,4 @@ Value(s): ProgramsCacheSMP, ProgramsCacheTBP
 
 * [ForensicsWiki: Jump Lists](https://forensicswiki.xyz/wiki/index.php?title=Jump_Lists)
 * [dtFormats: Jump lists format](https://github.com/libyal/dtformats/blob/main/documentation/Jump%20lists%20format.asciidoc)
-* [WinReg-KB: Programs Cache values](https://github.com/libyal/winreg-kb/blob/main/documentation/Programs%20Cache%20values.asciidoc)
+* [WinReg-KB: Programs Cache values](https://winreg-kb.readthedocs.io/en/latest/sources/explorer-keys/Program-cache.html)
