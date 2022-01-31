@@ -1,7 +1,8 @@
-# Structures to identify known data formats.
+# Known data formats.
 #
-# TODO: use format definitions to define layout and map format name
-# to structure.
+# The check_artifacts.py scrips uses the format definitions below to detect
+# known data formats. To add a new format define format definition and in its
+# "layout" attribute map to corresponding header or footer structure definition.
 #
 name: esedb
 type: format
