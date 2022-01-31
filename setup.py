@@ -107,18 +107,24 @@ else:
 
         elif line.startswith('%files'):
           lines = [
+              '%files -n %{name}-data',
+              '%defattr(644,root,root,755)',
+              '%license LICENSE',
+              '%doc ACKNOWLEDGEMENTS AUTHORS README',
+              '%{_datadir}/%{name}/*',
+              '',
               '%files -n {0:s}-%{{name}}'.format(python_package),
               '%defattr(644,root,root,755)',
               '%license LICENSE',
-              '%doc ']
+              '%doc ACKNOWLEDGEMENTS AUTHORS README']
 
           lines.extend([
               '%{python3_sitelib}/artifactsrc/*.py',
+              '%{python3_sitelib}/artifactsrc/*.yaml',
               '%{python3_sitelib}/artifactsrc*.egg-info/*',
               '',
               '%exclude %{_prefix}/share/doc/*',
-              '%exclude %{python3_sitelib}/artifactsrc/__pycache__/*',
-              '%exclude %{_bindir}/*.py'])
+              '%exclude %{python3_sitelib}/artifactsrc/__pycache__/*'])
 
           python_spec_file.extend(lines)
           break
@@ -126,17 +132,34 @@ else:
         elif line.startswith('%prep'):
           in_description = False
 
+          python_spec_file.extend([
+              '%package -n %{name}-data',
+              'Summary: Data files for {0:s}'.format(summary),
+              '',
+              '%description -n %{name}-data'])
+
+          python_spec_file.extend(description)
+
           python_spec_file.append(
               '%package -n {0:s}-%{{name}}'.format(python_package))
           python_summary = 'Python 3 module of {0:s}'.format(summary)
 
-          if requires:
-            python_spec_file.append('Requires: {0:s}'.format(requires))
-
           python_spec_file.extend([
+              'Requires: artifacts-kb-data >= %{{version}} {0:s}'.format(
+                  requires),
               'Summary: {0:s}'.format(python_summary),
               '',
               '%description -n {0:s}-%{{name}}'.format(python_package)])
+
+          python_spec_file.extend(description)
+
+          python_spec_file.extend([
+              '%package -n %{name}-tools',
+              'Requires: {0:s}-artifacts-kb >= %{{version}}'.format(
+                  python_package),
+              'Summary: Tools for {0:s}'.format(summary),
+              '',
+              '%description -n %{name}-tools'])
 
           python_spec_file.extend(description)
 
@@ -148,6 +171,11 @@ else:
           description.append(line)
 
         python_spec_file.append(line)
+
+      python_spec_file.extend([
+          '',
+          '%files -n %{name}-tools',
+          '%{_bindir}/*.py'])
 
       return python_spec_file
 
@@ -197,7 +225,7 @@ setup(
         'bdist_msi': BdistMSICommand,
         'bdist_rpm': BdistRPMCommand},
     classifiers=[
-        '',
+        'Development Status :: 3 - Alpha',
         'Environment :: Console',
         'Operating System :: OS Independent',
         'Programming Language :: Python',
@@ -209,8 +237,10 @@ setup(
     },
     scripts=glob.glob(os.path.join('tools', '[a-z]*.py')),
     data_files=[
+        ('share/artifacts-kb/data', glob.glob(
+            os.path.join('data', '*'))),
         ('share/doc/artifacts-kb', [
-            'LICENSE']),
+            'ACKNOWLEDGEMENTS', 'AUTHORS', 'LICENSE']),
     ],
     install_requires=parse_requirements_from_file('requirements.txt'),
     tests_require=parse_requirements_from_file('test_requirements.txt'),
