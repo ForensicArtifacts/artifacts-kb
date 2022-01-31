@@ -10,7 +10,7 @@ import sys
 from artifacts import reader as artifacts_reader
 from artifacts import registry as artifacts_registry
 
-from dfimagetools import helpers
+from dfimagetools import helpers as dfimagetools_helpers
 
 from dfvfs.helpers import command_line
 from dfvfs.helpers import volume_scanner as dfvfs_volume_scanner
@@ -66,6 +66,11 @@ def Main():
           'with: "all".'))
 
   argument_parser.add_argument(
+      '-w', '--windows_version', '--windows-version',
+      dest='windows_version', action='store', metavar='Windows XP',
+      default=None, help='string that identifies the Windows version.')
+
+  argument_parser.add_argument(
       'source', nargs='?', action='store', metavar='image.raw',
       default=None, help='path of the storage media image.')
 
@@ -85,7 +90,7 @@ def Main():
     print('')
     return False
 
-  helpers.SetDFVFSBackEnd(options.back_end)
+  dfimagetools_helpers.SetDFVFSBackEnd(options.back_end)
 
   logging.basicConfig(
       level=logging.INFO, format='[%(levelname)s] %(message)s')
@@ -123,10 +128,11 @@ def Main():
       print('')
       return False
 
-    definitions_found = set([])
+    definitions_with_check_results = {}
     for artifact_definition in registry.GetDefinitions():
-      if scanner.CheckArtifactDefinition(artifact_definition):
-        definitions_found.add(artifact_definition.name)
+      check_result = scanner.CheckArtifactDefinition(artifact_definition)
+      if check_result.number_of_file_entries:
+        definitions_with_check_results[artifact_definition.name] = check_result
 
   except errors.ScannerError as exception:
     print('[ERROR] {0!s}'.format(exception), file=sys.stderr)
@@ -139,8 +145,14 @@ def Main():
     return False
 
   print('Aritfact definitions found:')
-  for name in sorted(definitions_found):
-    print('* {0:s}'.format(name))
+  for name, check_result in sorted(definitions_with_check_results.items()):
+    text = '* {0:s} [results: {1:d}]'.format(
+        name, check_result.number_of_file_entries)
+    if check_result.data_formats:
+      text = '{0:s} [formats: {1:s}]'.format(
+          text, ', '.join(sorted(check_result.data_formats)))
+
+    print(text)
   print('')
 
   return True

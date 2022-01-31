@@ -1,0 +1,336 @@
+# Structures to identify known data formats.
+#
+# TODO: use format definitions to define layout and map format name
+# to structure.
+#
+name: esedb
+type: format
+description: Extensible Storage Engine (ESE) Database File (EDB) format
+attributes:
+  byte_order: little-endian
+layout:
+- data_type: esedb_file_header
+  offset: 0
+---
+name: evt
+type: format
+description: Windows Event Log (EVT) format
+attributes:
+  byte_order: little-endian
+layout:
+- data_type: evt_file_header
+  offset: 0
+---
+name: evtx
+type: format
+description: Windows XML Event Log (EVTX) format
+attributes:
+  byte_order: little-endian
+layout:
+- data_type: evtx_file_header
+  offset: 0
+---
+name: job
+type: format
+description: Windows Job file format
+attributes:
+  byte_order: little-endian
+layout:
+- data_type: job_fixed_length_data_section
+  offset: 0
+---
+name: regf
+type: format
+description: Windows NT Registry File (REGF) format
+attributes:
+  byte_order: little-endian
+layout:
+- data_type: regf_file_header
+  offset: 0
+---
+name: scca
+type: format
+description: Windows Prefetch File (PF) format
+attributes:
+  byte_order: little-endian
+layout:
+- data_type: scca_file_header
+  offset: 0
+---
+name: scca_compressed
+type: format
+description: Compressed Windows Prefetch File (PF) format
+attributes:
+  byte_order: little-endian
+layout:
+- data_type: scca_compressed_file_header
+  offset: 0
+---
+name: byte
+type: integer
+attributes:
+  format: unsigned
+  size: 1
+  units: bytes
+---
+name: uint16
+type: integer
+attributes:
+  format: unsigned
+  size: 2
+  units: bytes
+---
+name: uint32
+type: integer
+attributes:
+  format: unsigned
+  size: 4
+  units: bytes
+---
+name: uint64
+type: integer
+attributes:
+  format: unsigned
+  size: 8
+  units: bytes
+---
+name: wchar16
+type: character
+attributes:
+  size: 2
+  units: bytes
+---
+name: filetime
+aliases: [FILETIME]
+type: structure
+description: FILETIME structure
+urls: ['https://docs.microsoft.com/en-us/windows/win32/api/minwinbase/ns-minwinbase-filetime']
+members:
+- name: lower_part
+  data_type: uint32
+- name: upper_part
+  data_type: uint32
+---
+name: system_time
+type: structure
+members:
+- name: year
+  data_type: uint16
+- name: month
+  data_type: uint16
+- name: weekday
+  data_type: uint16
+- name: day_of_month
+  data_type: uint16
+- name: hours
+  data_type: uint16
+- name: minutes
+  data_type: uint16
+- name: seconds
+  data_type: uint16
+- name: milliseconds
+  data_type: uint16
+---
+name: esedb_file_header
+type: structure
+description: Extensible Storage Engine (ESE) Database File (EDB) file header
+members:
+- name: checksum
+  data_type: uint32
+- name: signature
+  type: stream
+  element_data_type: byte
+  elements_data_size: 4
+  value: [0xef, 0xcd, 0xab, 0x89]
+- name: format_version
+  data_type: uint32
+- name: file_type
+  data_type: uint32
+- name: database_time
+  data_type: uint64
+- name: database_signature
+  type: stream
+  element_data_type: byte
+  elements_data_size: 28
+- name: database_state
+  data_type: uint32
+---
+name: evt_file_header
+type: structure
+description: Windows Event Log (EVT) file header
+members:
+- name: size
+  data_type: uint32
+- name: signature
+  type: stream
+  element_data_type: byte
+  elements_data_size: 4
+  value: "LfLe"
+- name: major_format_version
+  data_type: uint32
+- name: minor_format_version
+  data_type: uint32
+- name: first_record_offset
+  data_type: uint32
+- name: end_of_file_record_offset
+  data_type: uint32
+- name: last_record_number
+  data_type: uint32
+- name: first_record_number
+  data_type: uint32
+- name: maximum_file_size
+  data_type: uint32
+- name: file_flags
+  data_type: uint32
+- name: retention
+  data_type: uint32
+- name: copy_of_size
+  data_type: uint32
+---
+name: evtx_file_header
+type: structure
+description: Windows XML Event Log (EVTX) file header
+members:
+- name: signature
+  type: stream
+  element_data_type: byte
+  elements_data_size: 8
+  value: "ElfFile\x00"
+- name: first_chunk_number
+  data_type: uint64
+- name: last_chunk_number
+  data_type: uint64
+- name: next_record_identifier
+  data_type: uint64
+- name: header_size
+  data_type: uint32
+- name: minor_format_version
+  data_type: uint16
+- name: major_format_version
+  data_type: uint16
+- name: header_block_size
+  data_type: uint16
+- name: number_of_chunks
+  data_type: uint16
+- name: unknown1
+  type: stream
+  element_data_type: byte
+  elements_data_size: 76
+- name: file_flags
+  data_type: uint32
+- name: checksum
+  data_type: uint32
+---
+name: job_fixed_length_data_section
+aliases: [FIXDLEN_DATA]
+type: structure
+urls: ["https://msdn.microsoft.com/en-us/library/cc248286.aspx"]
+attributes:
+  byte_order: little-endian
+members:
+- name: product_version
+  data_type: uint16
+- name: format_version
+  data_type: uint16
+- name: job_identifier
+  type: uuid
+- name: application_name_offset
+  data_type: uint16
+- name: triggers_offset
+  data_type: uint16
+- name: error_retry_count
+  data_type: uint16
+- name: error_retry_interval
+  data_type: uint16
+- name: idle_deadline
+  data_type: uint16
+- name: idle_wait
+  data_type: uint16
+- name: priority
+  data_type: uint32
+- name: maximum_run_time
+  data_type: uint32
+- name: exit_code
+  data_type: uint32
+- name: status
+  data_type: uint32
+- name: flags
+  data_type: uint32
+- name: last_run_time
+  data_type: system_time
+---
+name: regf_file_header
+type: structure
+description: Windows NT Registry File (REGF) header
+members:
+- name: signature
+  type: stream
+  element_data_type: byte
+  elements_data_size: 4
+  value: "regf"
+- name: primary_sequence_number
+  data_type: uint32
+- name: secondary_sequence_number
+  data_type: uint32
+- name: modification_time
+  data_type: filetime
+- name: major_format_version
+  data_type: uint32
+- name: minor_format_version
+  data_type: uint32
+- name: file_type
+  data_type: uint32
+  values: [0, 1, 2, 6]
+- name: unknown1
+  data_type: uint32
+- name: root_key_offset
+  data_type: uint32
+- name: hive_bins_size
+  data_type: uint32
+- name: unknown2
+  data_type: uint32
+- name: unknown3
+  type: stream
+  element_data_type: byte
+  elements_data_size: 64
+- name: unknown4
+  type: stream
+  element_data_type: byte
+  elements_data_size: 396
+- name: checksum
+  data_type: uint32
+---
+name: scca_file_header
+type: structure
+description: Windows Prefetch File (PF) file header
+members:
+- name: format_version
+  data_type: uint32
+- name: signature
+  type: stream
+  element_data_type: byte
+  elements_data_size: 4
+  value: "SCCA"
+- name: file_size
+  data_type: uint32
+- name: executable_filename
+  type: string
+  encoding: utf-16-le
+  element_data_type: wchar16
+  elements_data_size: 60
+- name: prefetch_hash
+  data_type: uint32
+- name: unknown1
+  data_type: uint32
+---
+name: scca_compressed_file_header
+type: structure
+description: Compressed Windows Prefetch File (PF) file header
+members:
+- name: signature
+  type: stream
+  element_data_type: byte
+  elements_data_size: 4
+  value: "MAM\x04"
+- name: uncompressed_data_size
+  data_type: uint32

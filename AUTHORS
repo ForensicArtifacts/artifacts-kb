@@ -1,0 +1,14 @@
+Copyright 2018 The ForensicArtifacts.com Artifact knowledge base project.
+
+# Names should be added to this file with this pattern:
+#
+# For individuals:
+#   Name (email address)
+#   Name (email address), organization
+#
+# For organizations:
+#   Organization (fnmatch pattern)
+#
+# See python fnmatch module documentation for more information.
+
+Joachim Metz (joachim.metz@gmail.com), Google Inc.

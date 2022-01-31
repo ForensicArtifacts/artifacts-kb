@@ -1,6 +1,10 @@
 # -*- coding: utf-8 -*-
 """Volume scanner for artifact definitions."""
 
+import logging
+import os
+import yaml
+
 from dfimagetools import artifact_filters
 from dfimagetools import environment_variables
 from dfimagetools import windows_registry
@@ -13,9 +17,33 @@ from dfvfs.resolver import resolver as dfvfs_resolver
 
 from dfwinreg import registry as dfwinreg_registry
 
+from dtfabric import errors as dtfabric_errors
+from dtfabric.runtime import fabric as dtfabric_fabric
+
+from artifactsrc import resource_file
+
+
+class CheckResults(object):
+  """Check results.
+
+  Attributes:
+    data_formats (set[str]): data formats that were found.
+    number_of_file_entries (int): number of file entries that were found.
+  """
+
+  def __init__(self):
+    """Initializes check results."""
+    super(CheckResults, self).__init__()
+    self.data_formats = set()
+    self.number_of_file_entries = 0
+
 
 class ArtifactDefinitionsVolumeScanner(dfvfs_volume_scanner.VolumeScanner):
   """Artifact definitions volume scanner."""
+
+  # Preserve the absolute path value of __file__ in case it is changed
+  # at run-time.
+  _DEFINITION_FILES_PATH = os.path.dirname(__file__)
 
   _WINDOWS_DIRECTORIES = frozenset([
       'C:\\Windows',
@@ -23,6 +51,15 @@ class ArtifactDefinitionsVolumeScanner(dfvfs_volume_scanner.VolumeScanner):
       'C:\\WTSRV',
       'C:\\WINNT35',
   ])
+
+  _FORMAT_VERSION_STRING = {
+      'esedb': 'esedb {format_version:d}',
+      'evt': 'evt {major_format_version:d}.{minor_format_version:d}',
+      'evtx': 'evtx {major_format_version:d}.{minor_format_version:d}',
+      'job': 'job {format_version:d}',
+      'regf': 'regf {major_format_version:d}.{minor_format_version:d}',
+      'scca': 'scca {format_version:d}',
+  }
 
   def __init__(self, artifacts_registry, mediator=None):
     """Initializes a Windows Registry collector.
@@ -34,14 +71,186 @@ class ArtifactDefinitionsVolumeScanner(dfvfs_volume_scanner.VolumeScanner):
           mediator.
     """
     super(ArtifactDefinitionsVolumeScanner, self).__init__(mediator=mediator)
+    self._ascii_codepage = 'cp1252'
     self._artifacts_registry = artifacts_registry
+    self._checks_definitions = None
+    self._data_location = os.path.join('data')
+    self._data_type_fabric = self._ReadDataTypeFabricDefinitionFile(
+        'formats.yaml')
+    self._data_type_maps = {}
     self._environment_variables = []
     self._file_system = None
     self._file_system_searcher = None
     self._filter_generator = None
     self._mount_point = None
     self._path_resolver = None
+    self._preferred_language_identifier = 'en-US'
+    self._windows_directory = None
     self._windows_registry = None
+
+  def _DetermineDataFormat(self, names, file_object):
+    """Determines the data format.
+
+    Args:
+      names (list[str]): names of data formats to check.
+      file_object (file): file-like object.
+
+    Returns:
+      str: data format identifier or None if the data format coudld not
+          be determined.
+    """
+    for name in names:
+      format_data_type_map = self._GetDataTypeMap(name)
+
+      layout = getattr(format_data_type_map, 'layout', None)
+      if not layout:
+        continue
+
+      layout_element_definition = layout[0]
+      if layout_element_definition.offset is None:
+        continue
+
+      data_type_map = self._GetDataTypeMap(
+          layout_element_definition.data_type)
+
+      structure_values = self._ReadStructureFromFileObject(
+          file_object, layout_element_definition.offset, data_type_map)
+      if structure_values:
+        format_string = self._FORMAT_VERSION_STRING.get(name, name)
+        return format_string.format(**structure_values.__dict__)
+
+    return None
+
+  def _GetDataTypeMap(self, name):
+    """Retrieves a data type map defined by the definition file.
+
+    The data type maps are cached for reuse.
+
+    Args:
+      name (str): name of the data type as defined by the definition file.
+
+    Returns:
+      dtfabric.DataTypeMap: data type map which contains a data type definition,
+          such as a structure, that can be mapped onto binary data.
+    """
+    data_type_map = self._data_type_maps.get(name, None)
+    if not data_type_map:
+      data_type_map = self._data_type_fabric.CreateDataTypeMap(name)
+      self._data_type_maps[name] = data_type_map
+
+    return data_type_map
+
+  def _OpenMessageResourceFile(self, windows_path):
+    """Opens the message resource file specified by the Windows path.
+
+    Args:
+      windows_path (str): Windows path containing the message resource
+          filename.
+
+    Returns:
+      MessageResourceFile: message resource file or None.
+    """
+    path_spec = self._path_resolver.ResolvePath(windows_path)
+    if path_spec is None:
+      return None
+
+    return self._OpenMessageResourceFileByPathSpec(path_spec)
+
+  def _OpenMessageResourceFileByPathSpec(self, path_spec):
+    """Opens the message resource file specified by the path specification.
+
+    Args:
+      path_spec (dfvfs.PathSpec): path specification.
+
+    Returns:
+      MessageResourceFile: message resource file or None.
+    """
+    windows_path = self._path_resolver.GetWindowsPath(path_spec)
+    if windows_path is None:
+      logging.warning('Unable to retrieve Windows path.')
+
+    try:
+      file_object = dfvfs_resolver.Resolver.OpenFileObject(path_spec)
+    except IOError as exception:
+      logging.warning('Unable to open: {0:s} with error: {1!s}'.format(
+          path_spec.comparable, exception))
+      file_object = None
+
+    if file_object is None:
+      return None
+
+    message_file = resource_file.MessageResourceFile(
+        windows_path, ascii_codepage=self._ascii_codepage,
+        preferred_language_identifier=self._preferred_language_identifier)
+    message_file.OpenFileObject(file_object)
+
+    return message_file
+
+  def _ReadChecksDefinitions(self):
+    """Reads the checks definitions from checks.yaml.
+
+    Returns:
+      list[dict[str, object]]: checks definitions.
+    """
+    check_definitions = {}
+
+    path = os.path.join(self._data_location, 'checks.yaml')
+    with open(path, 'r', encoding='utf-8') as file_object:
+      for check_definition in yaml.safe_load_all(file_object):
+        name = check_definition.get('name', None)
+        if name:
+          check_definitions[name.lower()] = check_definition
+
+    return check_definitions
+
+  def _ReadDataTypeFabricDefinitionFile(self, filename):
+    """Reads a dtFabric definition file.
+
+    Args:
+      filename (str): name of the dtFabric definition file.
+
+    Returns:
+      dtfabric.DataTypeFabric: data type fabric which contains the data format
+          data type maps of the data type definition, such as a structure, that
+          can be mapped onto binary data or None if no filename is provided.
+    """
+    if not filename:
+      return None
+
+    path = os.path.join(self._DEFINITION_FILES_PATH, filename)
+    with open(path, 'rb') as file_object:
+      definition = file_object.read()
+
+    return dtfabric_fabric.DataTypeFabric(yaml_definition=definition)
+
+  def _ReadStructureFromFileObject(
+      self, file_object, file_offset, data_type_map):
+    """Reads a structure from a file-like object.
+
+    This method currently only supports fixed-size structures.
+
+    Args:
+      file_object (file): a file-like object to parse.
+      file_offset (int): offset of the structure data relative to the start
+          of the file-like object.
+      data_type_map (dtfabric.DataTypeMap): data type map of the structure.
+
+    Returns:
+      object: structure values object or None if the structure cannot be read.
+    """
+    structure_values = None
+
+    data_size = data_type_map.GetByteSize()
+    if data_size:
+      file_object.seek(file_offset, os.SEEK_SET)
+      try:
+        data = file_object.read(data_size)
+        structure_values = data_type_map.MapByteStream(data)
+      except (dtfabric_errors.ByteStreamTooSmallError,
+              dtfabric_errors.MappingError):
+        pass
+
+    return structure_values
 
   def CheckArtifactDefinition(self, artifact_definition):
     """Checks if an artifact definition on a storage media image.
@@ -50,19 +259,54 @@ class ArtifactDefinitionsVolumeScanner(dfvfs_volume_scanner.VolumeScanner):
       artifact_definition (artifacts.ArtifactDefinition): artifact definition.
 
     Returns:
-      bool: True if artifact definition was found on storage media image.
+      CheckResults: check results.
     """
+    check_result = CheckResults()
+
+    if self._checks_definitions is None:
+      self._checks_definitions = self._ReadChecksDefinitions()
+
     find_specs = list(self._filter_generator.GetFindSpecs(
         [artifact_definition.name]))
-    if not find_specs:
-      return False
+    if find_specs:
+      path_specs = list(self._file_system_searcher.Find(find_specs=find_specs))
+      check_result.number_of_file_entries = len(path_specs)
 
-    for path_spec in self._file_system_searcher.Find(find_specs=find_specs):
-      # TODO: do something with path_spec.
-      _ = path_spec
-      return True
+      check_definition = self._checks_definitions.get(
+          artifact_definition.name.lower(), None)
+      if check_definition:
+        for path_spec in path_specs:
+          file_entry = self._file_system.GetFileEntryByPathSpec(path_spec)
 
-    return False
+          file_object = file_entry.GetFileObject()
+          if file_object:
+            formats = check_definition.get('formats', [])
+            data_format = self._DetermineDataFormat(formats, file_object)
+            check_result.data_formats.add(data_format or 'unknown')
+
+    return check_result
+
+  def GetWindowsVersion(self):
+    """Determines the Windows version from kernel executable file.
+
+    Returns:
+      str: Windows version or None otherwise.
+    """
+    # Window NT variants.
+    kernel_executable_path = '\\'.join([
+        self._windows_directory, 'System32', 'ntoskrnl.exe'])
+    message_file = self._OpenMessageResourceFile(kernel_executable_path)
+
+    if not message_file:
+      # Window 9x variants.
+      kernel_executable_path = '\\'.join([
+          self._windows_directory, 'System32', '\\kernel32.dll'])
+      message_file = self._OpenMessageResourceFile(kernel_executable_path)
+
+    if not message_file:
+      return None
+
+    return message_file.file_version
 
   def ScanForOperatingSystemVolumes(self, source_path, options=None):
     """Scans for volumes containing an operating system.
@@ -129,6 +373,7 @@ class ArtifactDefinitionsVolumeScanner(dfvfs_volume_scanner.VolumeScanner):
         self._file_system = file_system
         self._mount_point = mount_point
         self._path_resolver = path_resolver
+        self._windows_directory = windows_directory
         self._windows_registry = winregistry
 
     self._filter_generator = (

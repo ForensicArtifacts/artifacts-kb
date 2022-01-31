@@ -1,0 +1,49 @@
+# Artifact checks.
+name: WindowsAMCacheHveFile
+document: windows/AMCache.md
+formats: ['regf']
+---
+name: WindowsEventLogApplication
+formats: ['evt']
+---
+name: WindowsEventLogs
+formats: ['evt', 'evtx']
+---
+name: WindowsEventLogSecurity
+formats: ['evt']
+---
+name: WindowsEventLogSystem
+formats: ['evt']
+---
+name: WindowsPrefetchFiles
+formats: ['scca', 'scca_compressed']
+---
+name: WindowsRegistryFilesAndTransactionLogs
+formats: ['regf']
+---
+name: WindowsScheduledTasks
+formats: ['job']
+---
+name: WindowsSystemRegistryFiles
+formats: ['regf']
+---
+name: WindowsSystemRegistryFilesAndTransactionLogs
+formats: ['regf']
+---
+name: WindowsSystemRegistryTransactionLogFiles
+formats: ['regf']
+---
+name: WindowsSystemResourceUsageMonitorDatabaseFile
+formats: ['esedb']
+---
+name: WindowsXMLEventLogApplication
+formats: ['evtx']
+---
+name: WindowsXMLEventLogSecurity
+formats: ['evtx']
+---
+name: WindowsXMLEventLogSystem
+formats: ['evtx']
+---
+name: WindowsXMLEventLogTerminalServices
+formats: ['evtx']
