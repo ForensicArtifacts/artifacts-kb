@@ -53,7 +53,7 @@ class ArtifactDefinitionsVolumeScanner(dfvfs_volume_scanner.VolumeScanner):
   ])
 
   _FORMAT_VERSION_STRING = {
-      'esedb': 'esedb {format_version:d}',
+      'esedb': 'esedb 0x{format_version:x}',
       'evt': 'evt {major_format_version:d}.{minor_format_version:d}',
       'evtx': 'evtx {major_format_version:d}.{minor_format_version:d}',
       'job': 'job {format_version:d}',
@@ -277,12 +277,12 @@ class ArtifactDefinitionsVolumeScanner(dfvfs_volume_scanner.VolumeScanner):
       if check_definition:
         for path_spec in path_specs:
           file_entry = self._file_system.GetFileEntryByPathSpec(path_spec)
-
-          file_object = file_entry.GetFileObject()
-          if file_object:
-            formats = check_definition.get('formats', [])
-            data_format = self._DetermineDataFormat(formats, file_object)
-            check_result.data_formats.add(data_format or 'unknown')
+          if file_entry.size > 0:
+            file_object = file_entry.GetFileObject()
+            if file_object:
+              formats = check_definition.get('formats', [])
+              data_format = self._DetermineDataFormat(formats, file_object)
+              check_result.data_formats.add(data_format or 'unknown')
 
     return check_result
 
