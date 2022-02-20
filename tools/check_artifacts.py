@@ -12,9 +12,9 @@ from artifacts import registry as artifacts_registry
 
 from dfimagetools import helpers as dfimagetools_helpers
 
-from dfvfs.helpers import command_line
+from dfvfs.helpers import command_line as dfvfs_command_line
 from dfvfs.helpers import volume_scanner as dfvfs_volume_scanner
-from dfvfs.lib import errors
+from dfvfs.lib import errors as dfvfs_errors
 
 from artifactsrc import volume_scanner
 
@@ -103,7 +103,7 @@ def Main():
   elif os.path.isfile(options.artifact_definitions):
     registry.ReadFromFile(reader, options.artifact_definitions)
 
-  mediator = command_line.CLIVolumeScannerMediator()
+  mediator = dfvfs_command_line.CLIVolumeScannerMediator()
   scanner = volume_scanner.ArtifactDefinitionsVolumeScanner(
       registry, mediator=mediator)
 
@@ -134,7 +134,7 @@ def Main():
       if check_result.number_of_file_entries:
         definitions_with_check_results[artifact_definition.name] = check_result
 
-  except errors.ScannerError as exception:
+  except dfvfs_errors.ScannerError as exception:
     print('[ERROR] {0!s}'.format(exception), file=sys.stderr)
     print('')
     return False

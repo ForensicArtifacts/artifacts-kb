@@ -235,6 +235,11 @@ setup(
     package_dir={
         'artifactsrc': 'artifactsrc'
     },
+    include_package_data=True,
+    package_data={
+        'artifactsrc': ['*.yaml']
+    },
+    zip_safe=False,
     scripts=glob.glob(os.path.join('tools', '[a-z]*.py')),
     data_files=[
         ('share/artifacts-kb/data', glob.glob(
