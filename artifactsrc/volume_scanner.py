@@ -240,7 +240,7 @@ class ArtifactDefinitionsVolumeScanner(dfvfs_volume_scanner.VolumeScanner):
     """
     structure_values = None
 
-    data_size = data_type_map.GetByteSize()
+    data_size = data_type_map.GetSizeHint()
     if data_size:
       file_object.seek(file_offset, os.SEEK_SET)
       try:

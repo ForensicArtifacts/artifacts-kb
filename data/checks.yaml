@@ -24,6 +24,9 @@ formats: ['regf']
 name: WindowsScheduledTasks
 formats: ['job']
 ---
+name: WindowsSearchDatabase
+formats: ['esedb']
+---
 name: WindowsSystemRegistryFiles
 formats: ['regf']
 ---
