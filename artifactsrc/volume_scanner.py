@@ -62,7 +62,7 @@ class ArtifactDefinitionsVolumeScanner(dfvfs_volume_scanner.VolumeScanner):
   }
 
   def __init__(self, artifacts_registry, mediator=None):
-    """Initializes a Windows Registry collector.
+    """Initializes an artifact definitions volume scanner.
 
     Args:
       artifacts_registry (artifacts.ArtifactDefinitionsRegistry): artifact
@@ -96,7 +96,7 @@ class ArtifactDefinitionsVolumeScanner(dfvfs_volume_scanner.VolumeScanner):
       file_object (file): file-like object.
 
     Returns:
-      str: data format identifier or None if the data format coudld not
+      str: data format identifier or None if the data format could not
           be determined.
     """
     for name in names:
