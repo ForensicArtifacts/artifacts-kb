@@ -7,6 +7,7 @@ import logging
 import os
 import sys
 
+from artifacts import definitions as artifacts_definitions
 from artifacts import reader as artifacts_reader
 from artifacts import registry as artifacts_registry
 
@@ -130,6 +131,17 @@ def Main():
 
     definitions_with_check_results = {}
     for artifact_definition in registry.GetDefinitions():
+      group_only = True
+      for source in artifact_definition.sources:
+        if source.type_indicator != (
+            artifacts_definitions.TYPE_INDICATOR_ARTIFACT_GROUP):
+          group_only = False
+          break
+
+      if group_only:
+        # Not interested in results of group-only artifact definitions.
+        continue
+
       check_result = scanner.CheckArtifactDefinition(artifact_definition)
       if check_result.number_of_file_entries:
         definitions_with_check_results[artifact_definition.name] = check_result

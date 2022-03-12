@@ -1,4 +1,41 @@
 # Artifact checks.
+---
+name: MacOSBluetoothPlistFile
+formats: ['binary_plist']
+---
+name: MacOSDockPlistFile
+formats: ['binary_plist']
+---
+name: MacOSGlobalPreferencesPlistFile
+formats: ['binary_plist']
+---
+name: MacOSKeyboardLayoutPlistFile
+formats: ['binary_plist']
+---
+name: MacOSLaunchAgentsPlistFiles
+formats: ['binary_plist']
+---
+name: MacOSLaunchDaemonsPlistFiles
+formats: ['binary_plist']
+---
+name: MacOSLoginWindowPlistFile
+formats: ['binary_plist']
+---
+name: MacOSSystemConfigurationPreferencesPlistFile
+formats: ['binary_plist']
+---
+name: MacOSSystemPreferencesPlistFiles
+formats: ['binary_plist']
+---
+name: MacOSSystemVersionPlistFile
+formats: ['binary_plist']
+---
+name: MacOSTimeMachinePlistFile
+formats: ['binary_plist']
+---
+name: MacOSUserPasswordHashesPlistFiles
+formats: ['binary_plist']
+---
 name: WindowsAMCacheHveFile
 document: windows/AMCache.md
 formats: ['regf']
