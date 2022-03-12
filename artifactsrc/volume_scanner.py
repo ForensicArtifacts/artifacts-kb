@@ -45,6 +45,34 @@ class ArtifactDefinitionsVolumeScanner(dfvfs_volume_scanner.VolumeScanner):
   # at run-time.
   _DEFINITION_FILES_PATH = os.path.dirname(__file__)
 
+  _SYSTEM_DIRECTORY_FIND_SPECS = [
+      dfvfs_file_system_searcher.FindSpec(
+          case_sensitive=False, location='/sbin',
+          location_separator='/'),
+      dfvfs_file_system_searcher.FindSpec(
+          case_sensitive=False, location='/System/Library',
+          location_separator='/'),
+      dfvfs_file_system_searcher.FindSpec(
+          case_sensitive=False, location='\\Windows\\System32',
+          location_separator='\\'),
+      dfvfs_file_system_searcher.FindSpec(
+          case_sensitive=False, location='\\WINNT\\System32',
+          location_separator='\\'),
+      dfvfs_file_system_searcher.FindSpec(
+          case_sensitive=False, location='\\WINNT35\\System32',
+          location_separator='\\'),
+      dfvfs_file_system_searcher.FindSpec(
+          case_sensitive=False, location='\\WTSRV\\System32',
+          location_separator='\\')]
+
+  # We need to check for both forward and backward slashes since the path
+  # specification will be dfVFS back-end dependent.
+  _WINDOWS_SYSTEM_DIRECTORIES = set([
+      '/windows/system32', '\\windows\\system32',
+      '/winnt/system32', '\\winnt\\system32',
+      '/winnt35/system32', '\\winnt35\\system32',
+      '/wtsrv/system32', '\\wtsrv\\system32'])
+
   _WINDOWS_DIRECTORIES = frozenset([
       'C:\\Windows',
       'C:\\WINNT',
@@ -53,6 +81,7 @@ class ArtifactDefinitionsVolumeScanner(dfvfs_volume_scanner.VolumeScanner):
   ])
 
   _FORMAT_VERSION_STRING = {
+      'bplist': 'bplist 0x{format_version:s}',
       'esedb': 'esedb 0x{format_version:x}',
       'evt': 'evt {major_format_version:d}.{minor_format_version:d}',
       'evtx': 'evtx {major_format_version:d}.{minor_format_version:d}',
@@ -347,40 +376,58 @@ class ArtifactDefinitionsVolumeScanner(dfvfs_volume_scanner.VolumeScanner):
       else:
         mount_point = path_spec.parent
 
-      path_resolver = dfvfs_windows_path_resolver.WindowsPathResolver(
+      file_system_searcher = dfvfs_file_system_searcher.FileSystemSearcher(
           file_system, mount_point)
 
-      windows_directory = None
-      for windows_path in self._WINDOWS_DIRECTORIES:
-        windows_path_spec = path_resolver.ResolvePath(windows_path)
-        if windows_path_spec is not None:
-          windows_directory = windows_path
-          break
+      system_directories = []
+      for system_directory_path_spec in file_system_searcher.Find(
+          find_specs=self._SYSTEM_DIRECTORY_FIND_SPECS):
+        relative_path = file_system_searcher.GetRelativePath(
+            system_directory_path_spec)
+        if relative_path:
+          system_directories.append(relative_path.lower())
 
-      if windows_directory:
-        path_resolver.SetEnvironmentVariable('SystemRoot', windows_directory)
-        path_resolver.SetEnvironmentVariable('WinDir', windows_directory)
-
-        registry_file_reader = (
-            windows_registry.StorageMediaImageWindowsRegistryFileReader(
-                file_system, path_resolver))
-        winregistry = dfwinreg_registry.WinRegistry(
-            registry_file_reader=registry_file_reader)
-
-        collector = environment_variables.WindowsEnvironmentVariablesCollector()
-
-        self._environment_variables = list(collector.Collect(winregistry))
+      if system_directories:
+        self._file_system_searcher = file_system_searcher
         self._file_system = file_system
         self._mount_point = mount_point
-        self._path_resolver = path_resolver
-        self._windows_directory = windows_directory
-        self._windows_registry = winregistry
+
+      if self._WINDOWS_SYSTEM_DIRECTORIES.intersection(set(system_directories)):
+        path_resolver = dfvfs_windows_path_resolver.WindowsPathResolver(
+            file_system, mount_point)
+
+        # TODO: determine Windows directory based on system directories.
+        windows_directory = None
+        for windows_path in self._WINDOWS_DIRECTORIES:
+          windows_path_spec = path_resolver.ResolvePath(windows_path)
+          if windows_path_spec is not None:
+            windows_directory = windows_path
+            break
+
+        if windows_directory:
+          path_resolver.SetEnvironmentVariable('SystemRoot', windows_directory)
+          path_resolver.SetEnvironmentVariable('WinDir', windows_directory)
+
+          registry_file_reader = (
+              windows_registry.StorageMediaImageWindowsRegistryFileReader(
+                  file_system, path_resolver))
+          winregistry = dfwinreg_registry.WinRegistry(
+              registry_file_reader=registry_file_reader)
+
+          collector = (
+              environment_variables.WindowsEnvironmentVariablesCollector())
+
+          self._environment_variables = list(collector.Collect(winregistry))
+          self._path_resolver = path_resolver
+          self._windows_directory = windows_directory
+          self._windows_registry = winregistry
+
+      if system_directories:
+        # TODO: on Mac OS prevent detecting the Recovery volume.
+        break
 
     self._filter_generator = (
         artifact_filters.ArtifactDefinitionFiltersGenerator(
             self._artifacts_registry, self._environment_variables, []))
-
-    self._file_system_searcher = dfvfs_file_system_searcher.FileSystemSearcher(
-        self._file_system, self._mount_point)
 
     return True

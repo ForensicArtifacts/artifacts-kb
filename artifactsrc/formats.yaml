@@ -1,9 +1,18 @@
-# Known data formats.
+# dtFabric format specification.
 #
 # The check_artifacts.py scrips uses the format definitions below to detect
 # known data formats. To add a new format define format definition and in its
 # "layout" attribute map to corresponding header or footer structure definition.
-#
+---
+name: binary_plist
+type: format
+description: Binary property list fomat
+attributes:
+  byte_order: little-endian
+layout:
+- data_type: binary_plist_file_header
+  offset: 0
+---
 name: esedb
 type: format
 description: Extensible Storage Engine (ESE) Database File (EDB) format
@@ -74,6 +83,13 @@ attributes:
   size: 1
   units: bytes
 ---
+name: char
+type: integer
+attributes:
+  format: signed
+  size: 1
+  units: bytes
+---
 name: uint16
 type: integer
 attributes:
@@ -131,6 +147,21 @@ members:
   data_type: uint16
 - name: milliseconds
   data_type: uint16
+---
+name: binary_plist_file_header
+type: structure
+description: Binary property list file header
+members:
+- name: signature
+  type: stream
+  element_data_type: byte
+  elements_data_size: 6
+  value: "bplist"
+- name: format_version
+  type: string
+  encoding: ascii
+  element_data_type: char
+  elements_data_size: 2
 ---
 name: esedb_file_header
 type: structure
