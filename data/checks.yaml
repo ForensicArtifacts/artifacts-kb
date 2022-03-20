@@ -1,4 +1,4 @@
-# Artifact checks.
+# Artifact definition checks.
 ---
 name: MacOSBluetoothPlistFile
 formats: ['binary_plist']
@@ -19,6 +19,18 @@ name: MacOSLaunchDaemonsPlistFiles
 formats: ['binary_plist']
 ---
 name: MacOSLoginWindowPlistFile
+formats: ['binary_plist']
+---
+name: MacOSNotificationCenterSQLiteDatabaseFile
+formats: ['sqlite']
+---
+name: MacOSQuarantineEventsSQLiteDatabaseFile
+formats: ['sqlite']
+---
+name: MacOSRecentItemsPlistFile
+formats: ['binary_plist']
+---
+name: MacOSSidebarListsPlistFile
 formats: ['binary_plist']
 ---
 name: MacOSSystemConfigurationPreferencesPlistFile

@@ -387,7 +387,7 @@ class ArtifactDefinitionsVolumeScanner(dfvfs_volume_scanner.VolumeScanner):
         if relative_path:
           system_directories.append(relative_path.lower())
 
-      if system_directories:
+      if system_directories or len(base_path_specs) == 1:
         self._file_system_searcher = file_system_searcher
         self._file_system = file_system
         self._mount_point = mount_point
