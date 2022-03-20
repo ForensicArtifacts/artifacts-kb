@@ -76,6 +76,15 @@ layout:
 - data_type: scca_compressed_file_header
   offset: 0
 ---
+name: sqlite
+type: format
+description: SQLite database file format
+attributes:
+  byte_order: little-endian
+layout:
+- data_type: sqlite_file_header
+  offset: 0
+---
 name: byte
 type: integer
 attributes:
@@ -364,3 +373,13 @@ members:
   value: "MAM\x04"
 - name: uncompressed_data_size
   data_type: uint32
+---
+name: sqlite_file_header
+type: structure
+description: SQLite database file header
+members:
+- name: signature
+  type: stream
+  element_data_type: byte
+  elements_data_size: 16
+  value: "SQLite format 3\x00"
