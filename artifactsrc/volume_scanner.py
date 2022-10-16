@@ -201,8 +201,8 @@ class ArtifactDefinitionsVolumeScanner(dfvfs_volume_scanner.VolumeScanner):
     try:
       file_object = dfvfs_resolver.Resolver.OpenFileObject(path_spec)
     except IOError as exception:
-      logging.warning('Unable to open: {0:s} with error: {1!s}'.format(
-          path_spec.comparable, exception))
+      logging.warning(
+          f'Unable to open: {path_spec.comparable:s} with error: {exception!s}')
       file_object = None
 
     if file_object is None:

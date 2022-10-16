@@ -53,20 +53,30 @@ class MessageResourceFile(object):
       return
 
     file_version = version_information_resource.file_version
-    self._file_version = '{0:d}.{1:d}.{2:d}.{3:d}'.format(
-        (file_version >> 48) & 0xffff, (file_version >> 32) & 0xffff,
-        (file_version >> 16) & 0xffff, file_version & 0xffff)
+    major_version = (file_version >> 48) & 0xffff
+    minor_version = (file_version >> 32) & 0xffff
+    build_number = (file_version >> 16) & 0xffff
+    revision_number = file_version & 0xffff
+
+    self._file_version = (
+        f'{major_version:d}.{minor_version:d}.{build_number:d}.'
+        f'{revision_number:d}')
 
     product_version = version_information_resource.product_version
-    self._product_version = '{0:d}.{1:d}.{2:d}.{3:d}'.format(
-        (product_version >> 48) & 0xffff, (product_version >> 32) & 0xffff,
-        (product_version >> 16) & 0xffff, product_version & 0xffff)
+    major_version = (product_version >> 48) & 0xffff
+    minor_version = (product_version >> 32) & 0xffff
+    build_number = (product_version >> 16) & 0xffff
+    revision_number = product_version & 0xffff
+
+    self._product_version = (
+        f'{major_version:d}.{minor_version:d}.{build_number:d}.'
+        f'{revision_number:d}')
 
     if file_version != product_version:
       logging.warning((
-          'Mismatch between file version: {0:s} and product version: '
-          '{1:s} in message file: {2:s}.').format(
-              self._file_version, self._product_version, self.windows_path))
+          f'Mismatch between file version: {self._file_version:s} and product '
+          f'version: {self._product_version:s} in message file: '
+          f'{self.windows_path:s}.'))
 
   def _GetVersionInformationResource(self):
     """Retrieves the version information resource.
