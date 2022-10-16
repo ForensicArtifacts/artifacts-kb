@@ -124,8 +124,8 @@ def Main():
   try:
     if not scanner.ScanForOperatingSystemVolumes(
         options.source, options=volume_scanner_options):
-      print('Unable to retrieve an operating system volume from: {0:s}.'.format(
-          options.source))
+      print((f'Unable to retrieve an operating system volume from: '
+             f'{options.source:s}.'))
       print('')
       return False
 
@@ -147,7 +147,7 @@ def Main():
         definitions_with_check_results[artifact_definition.name] = check_result
 
   except dfvfs_errors.ScannerError as exception:
-    print('[ERROR] {0!s}'.format(exception), file=sys.stderr)
+    print(f'[ERROR] {exception!s}', file=sys.stderr)
     print('')
     return False
 
@@ -158,11 +158,10 @@ def Main():
 
   print('Aritfact definitions found:')
   for name, check_result in sorted(definitions_with_check_results.items()):
-    text = '* {0:s} [results: {1:d}]'.format(
-        name, check_result.number_of_file_entries)
+    text = f'* {name:s} [results: {check_result.number_of_file_entries:d}]'
     if check_result.data_formats:
-      text = '{0:s} [formats: {1:s}]'.format(
-          text, ', '.join(sorted(check_result.data_formats)))
+      formats_string = ', '.join(sorted(check_result.data_formats))
+      text = f'{text:s} [formats: {formats_string:s}]'
 
     print(text)
   print('')
