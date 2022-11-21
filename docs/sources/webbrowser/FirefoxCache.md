@@ -74,5 +74,5 @@ C:\Users\%USERNAME%\AppData\Local\Mozilla\Firefox\Profiles\%PROFILE%.default\cac
 
 ### References
 
-* [Forensicswiki: Mozilla Firefox](https://forensicswiki.xyz/wiki/index.php?title=Mozilla_Firefox)
+* [Forensicswiki: Mozilla Firefox](https://forensics.wiki/mozilla_firefox)
 * [Example Mozilla Firefox Cache files](https://github.com/dfirlabs/firefox-specimens/tree/main/specimens), by firefox-specimens project

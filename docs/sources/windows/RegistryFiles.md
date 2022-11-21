@@ -33,7 +33,7 @@ Windows NT4 and later uses the REGF Windows Registry file format
 ### References
 
 * [Wikipedia: Windows Registry](https://en.wikipedia.org/wiki/Windows_Registry)
-* [Forensicswiki: Windows Registry](https://forensicswiki.xyz/wiki/index.php?title=Windows_Registry)
+* [Forensicswiki: Windows Registry](https://forensics.wiki/windows_registry)
 * [WinReg-KB: Registry - Files](https://winreg-kb.readthedocs.io/en/latest/sources/windows-registry/Files.html)
 * [The Windows NT Registry File Format](http://www.sentinelchicken.com/data/TheWindowsNTRegistryFileFormat.pdf)
 * [Windows 9x Registry File (CREG) format specification](https://github.com/libyal/libcreg/blob/main/documentation/Windows%209x%20Registry%20File%20(CREG)%20format.asciidoc)

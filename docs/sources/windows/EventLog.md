@@ -51,8 +51,8 @@ Windows Vista and later uses the Windows XML Event Log (EVTX) format.
 
 * [Wikipedia: Event Viewer](https://en.wikipedia.org/wiki/Event_Viewer)
 * [Wikipedia: Log file](https://en.wikipedia.org/wiki/Log_file)
-* [ForensicsWiki: Windows Event Log (EVT)](https://forensicswiki.xyz/wiki/index.php?title=Windows_Event_Log_(EVT))
-* [ForensicsWiki: Windows XML Event Log (EVTX)](https://forensicswiki.xyz/wiki/index.php?title=Windows_XML_Event_Log_(EVTX))
+* [ForensicsWiki: Windows Event Log (EVT)](https://forensics.wiki/windows_event_log_(evt))
+* [ForensicsWiki: Windows XML Event Log (EVTX)](https://forensics.wiki/windows_xml_event_log_(evtx))
 * [Windows Event Viewer Log (EVT) format](https://github.com/libyal/libevt/blob/main/documentation/Windows%20Event%20Log%20(EVT)%20format.asciidoc)
 * [Windows XML Event Log (EVTX) format](https://github.com/libyal/libevtx/blob/main/documentation/Windows%20XML%20Event%20Log%20(EVTX).asciidoc)
 * [EventLog keys](https://winreg-kb.readthedocs.io/en/latest/sources/EventLog-keys.html)

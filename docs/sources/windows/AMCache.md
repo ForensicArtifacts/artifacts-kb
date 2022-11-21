@@ -13,6 +13,6 @@ This file uses the Windows NT Registry File (REGF) format.
 
 ### References
 
-* [ForensicsWiki: AMCache](https://forensicswiki.xyz/wiki/index.php?title=AMCache)
-* [ForensicsWiki: Windows Application Compatibility](https://forensicswiki.xyz/wiki/index.php?title=Windows_Application_Compatibility)
+* [ForensicsWiki: AMCache](https://forensics.wiki/amcache)
+* [ForensicsWiki: Windows Application Compatibility](https://forensics.wiki/windows_application_compatibility)
 * [Windows NT Registry File (REGF) format specification](https://github.com/libyal/libregf/blob/main/documentation/Windows%20NT%20Registry%20File%20(REGF)%20format.asciidoc)
