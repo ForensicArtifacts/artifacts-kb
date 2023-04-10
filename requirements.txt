@@ -35,4 +35,4 @@ libvshadow-python >= 20160109
 libvslvm-python >= 20160109
 libwrc-python >= 20220104
 pytsk3 >= 20210419
-pyxattr >= 0.7.2
+pyxattr >= 0.7.2 ; platform_system != "Windows"
