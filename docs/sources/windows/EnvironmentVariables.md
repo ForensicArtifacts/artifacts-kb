@@ -21,9 +21,9 @@ Name | Scope | Description
 ### References
 
 * [Wikipedia: Environment variable - Windows](https://en.wikipedia.org/wiki/Environment_variable#Windows)
-* [Recognized Environment Variables](https://docs.microsoft.com/en-us/windows/deployment/usmt/usmt-recognized-environment-variables)
-* [Driver Package Isolation - DriverData and ProgramData](https://docs.microsoft.com/en-us/windows-hardware/drivers/develop/driver-isolation#driverdata-and-programdata)
-* [About User Profiles](https://docs.microsoft.com/en-us/previous-versions/windows/desktop/legacy/bb776892(v=vs.85))
+* [Recognized Environment Variables](https://learn.microsoft.com/en-us/windows/deployment/usmt/usmt-recognized-environment-variables)
+* [Driver Package Isolation - DriverData and ProgramData](https://learn.microsoft.com/en-us/windows-hardware/drivers/develop/driver-isolation#driverdata-and-programdata)
+* [About User Profiles](https://learn.microsoft.com/en-us/previous-versions/windows/desktop/legacy/bb776892(v=vs.85))
 
 #### APPX_PROCESS environment variable
 
@@ -32,4 +32,4 @@ Name | Scope | Description
 
 #### Windows Registry environment variable expansion
 
-* [Expanding Environment Variables](https://docs.microsoft.com/en-us/openspecs/windows_protocols/ms-even/7d43656f-4f9f-4994-a919-50db71e01af9)
+* [Expanding Environment Variables](https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-even/7d43656f-4f9f-4994-a919-50db71e01af9)
