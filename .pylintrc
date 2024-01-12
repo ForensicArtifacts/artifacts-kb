@@ -29,7 +29,7 @@ clear-cache-post-run=no
 # A comma-separated list of package or module names from where C extensions may
 # be loaded. Extensions are loading into the active Python interpreter and may
 # run arbitrary code.
-extension-pkg-allow-list=pybde,pycreg,pyewf,pyexe,pyfsapfs,pyfsext,pyfsfat,pyfshfs,pyfsntfs,pyfsxfs,pyfvde,pyfwnt,pyluksde,pymodi,pyphdi,pyqcow,pyregf,pysigscan,pysmdev,pysmraw,pytsk3,pyvhdi,pyvmdk,pyvsgpt,pyvshadow,pyvslvm,pywrc,xattr
+extension-pkg-allow-list=pybde,pycreg,pyewf,pyexe,pyfsapfs,pyfsext,pyfsfat,pyfshfs,pyfsntfs,pyfsxfs,pyfvde,pyfwnt,pyluksde,pymodi,pyphdi,pyqcow,pyregf,pysigscan,pysmdev,pysmraw,pytsk3,pyvhdi,pyvmdk,pyvsapm,pyvsgpt,pyvshadow,pyvslvm,pywrc,xattr
 
 # A comma-separated list of package or module names from where C extensions may
 # be loaded. Extensions are loading into the active Python interpreter and may
