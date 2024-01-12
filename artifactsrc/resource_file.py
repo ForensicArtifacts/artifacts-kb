@@ -7,8 +7,6 @@ import pyexe
 import pywrc
 
 
-# pylint: disable=logging-format-interpolation
-
 class MessageResourceFile(object):
   """Windows Message Resource file.
 
@@ -201,16 +199,6 @@ class MessageResourceFile(object):
 
     return mui_resource
 
-  def GetStringTableResource(self):
-    """Retrieves the string table resource.
-
-    Returns:
-      pywrc.resource: resource containing the string table resource or None
-          if not available.
-    """
-    return self._wrc_stream.get_resource_by_identifier(
-        self._STRING_TABLE_RESOURCE_IDENTIFIER)
-
   def HasMessageTableResource(self):
     """Determines if the resource file as a message table resource.
 
@@ -222,22 +210,6 @@ class MessageResourceFile(object):
       try:
         wrc_resource = self._wrc_stream.get_resource_by_identifier(
             self._MESSAGE_TABLE_RESOURCE_IDENTIFIER)
-      except IOError:
-        pass
-
-    return bool(wrc_resource)
-
-  def HasStringTableResource(self):
-    """Determines if the resource file as a string table resource.
-
-    Returns:
-      bool: True if the resource file as a string table resource.
-    """
-    wrc_resource = None
-    if self._wrc_stream:
-      try:
-        wrc_resource = self._wrc_stream.get_resource_by_identifier(
-            self._STRING_TABLE_RESOURCE_IDENTIFIER)
       except IOError:
         pass
 

@@ -1,4 +1,4 @@
 # -*- coding: utf-8 -*-
 """ForensicArtifacts.com Artifact Repository resources."""
 
-__version__ = '20231227'
+__version__ = '20240112'
