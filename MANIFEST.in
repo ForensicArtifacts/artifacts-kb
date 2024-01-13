@@ -1,4 +1,4 @@
-include AUTHORS LICENSE README.md
+include ACKNOWLEDGEMENTS AUTHORS LICENSE README.md
 include dependencies.ini run_tests.py utils/__init__.py utils/dependencies.py
 include utils/check_dependencies.py
 include requirements.txt test_requirements.txt
