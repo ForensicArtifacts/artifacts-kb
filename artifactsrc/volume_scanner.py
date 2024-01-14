@@ -43,6 +43,9 @@ class ArtifactDefinitionsVolumeScanner(dfvfs_volume_scanner.VolumeScanner):
 
   # Preserve the absolute path value of __file__ in case it is changed
   # at run-time.
+  _CHECKS_DEFINITIONS_FILE = (
+      os.path.join(os.path.dirname(__file__), 'data', 'checks.yaml'))
+
   _DEFINITION_FILES_PATH = os.path.dirname(__file__)
 
   _SYSTEM_DIRECTORY_FIND_SPECS = [
@@ -223,8 +226,8 @@ class ArtifactDefinitionsVolumeScanner(dfvfs_volume_scanner.VolumeScanner):
     """
     check_definitions = {}
 
-    path = os.path.join(self._data_location, 'checks.yaml')
-    with open(path, 'r', encoding='utf-8') as file_object:
+    with open(self._CHECKS_DEFINITIONS_FILE, 'r',
+              encoding='utf-8') as file_object:
       for check_definition in yaml.safe_load_all(file_object):
         name = check_definition.get('name', None)
         if name:
