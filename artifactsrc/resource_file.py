@@ -14,7 +14,6 @@ class MessageResourceFile(object):
     windows_path (str): Windows path of the message resource file.
   """
 
-  _STRING_TABLE_RESOURCE_IDENTIFIER = 0x06
   _MESSAGE_TABLE_RESOURCE_IDENTIFIER = 0x0b
   _VERSION_INFORMATION_RESOURCE_IDENTIFIER = 0x10
 
