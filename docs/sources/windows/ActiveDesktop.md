@@ -27,4 +27,3 @@ HKEY_CURRENT_USER\Software\Microsoft\Internet Explorer\Desktop\Components
 ### References
 
 * [Wikipedia: Active Desktop](https://en.wikipedia.org/wiki/Active_Desktop)
-* [Sophos: Troj/DwnLdr-GWV](https://www.sophos.com/en-us/threat-center/threat-analyses/viruses-and-spyware/Troj~DwnLdr-GWV/detailed-analysis.aspx)
