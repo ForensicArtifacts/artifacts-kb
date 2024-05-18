@@ -21,10 +21,10 @@ from artifactsrc import volume_scanner
 
 
 def Main():
-  """The main program function.
+  """Entry point of console script to check artifact definitions.
 
   Returns:
-    bool: True if successful or False if not.
+    int: exit code that is provided to sys.exit().
   """
   argument_parser = argparse.ArgumentParser(description=(
       'Checks artifact definitions on a storage media image.'))
@@ -82,14 +82,14 @@ def Main():
     print('')
     argument_parser.print_help()
     print('')
-    return False
+    return 1
 
   if not options.artifact_definitions:
     print('Path to artifact definitions is missing.')
     print('')
     argument_parser.print_help()
     print('')
-    return False
+    return 1
 
   dfimagetools_helpers.SetDFVFSBackEnd(options.back_end)
 
@@ -127,7 +127,7 @@ def Main():
       print((f'Unable to retrieve an operating system volume from: '
              f'{options.source:s}.'))
       print('')
-      return False
+      return 1
 
     definitions_with_check_results = {}
     for artifact_definition in registry.GetDefinitions():
@@ -149,12 +149,12 @@ def Main():
   except dfvfs_errors.ScannerError as exception:
     print(f'[ERROR] {exception!s}', file=sys.stderr)
     print('')
-    return False
+    return 1
 
   except KeyboardInterrupt:
     print('Aborted by user.', file=sys.stderr)
     print('')
-    return False
+    return 1
 
   print('Aritfact definitions found:')
   for name, check_result in sorted(definitions_with_check_results.items()):
@@ -166,11 +166,8 @@ def Main():
     print(text)
   print('')
 
-  return True
+  return 0
 
 
 if __name__ == '__main__':
-  if not Main():
-    sys.exit(1)
-  else:
-    sys.exit(0)
+  sys.exit(Main())
