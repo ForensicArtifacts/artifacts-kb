@@ -9,21 +9,21 @@ artifactsrc.resource\_file module
 
 .. automodule:: artifactsrc.resource_file
    :members:
-   :undoc-members:
    :show-inheritance:
+   :undoc-members:
 
 artifactsrc.volume\_scanner module
 ----------------------------------
 
 .. automodule:: artifactsrc.volume_scanner
    :members:
-   :undoc-members:
    :show-inheritance:
+   :undoc-members:
 
 Module contents
 ---------------
 
 .. automodule:: artifactsrc
    :members:
-   :undoc-members:
    :show-inheritance:
+   :undoc-members:
