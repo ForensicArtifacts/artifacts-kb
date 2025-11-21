@@ -1,6 +1,6 @@
 # Script to set up tests on AppVeyor Windows.
 
-$Dependencies = "PyYAML artifacts cffi cryptography dfdatetime dfimagetools dfvfs dfwinreg dtfabric idna libbde libcreg libewf libexe libfsapfs libfsext libfsfat libfshfs libfsntfs libfsxfs libfvde libfwnt libluksde libmodi libphdi libqcow libregf libsigscan libsmdev libsmraw libvhdi libvmdk libvsapm libvsgpt libvshadow libvslvm libwrc pytsk3 xattr"
+$Dependencies = "PyYAML artifacts cffi dfdatetime dfimagetools dfvfs dfwinreg dtfabric idna libbde libcaes libcreg libewf libexe libfcrypto libfsapfs libfsext libfsfat libfshfs libfsntfs libfsxfs libfvde libfwnt libluksde libmodi libphdi libqcow libregf libsigscan libsmdev libsmraw libvhdi libvmdk libvsapm libvsgpt libvshadow libvslvm libwrc pytsk3 xattr"
 
 If ($Dependencies.Length -gt 0)
 {
