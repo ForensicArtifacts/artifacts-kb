@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "artifactsrc"
-version = "20251127"
+version = "20260411"
 description = "Digital Forensics Artifact knowledge base"
 maintainers = [
     { name = "Joachim Metz", email = "joachim.metz@gmail.com" },
