@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "artifactsrc"
-version = "20260411"
+version = "20260501"
 description = "Digital Forensics Artifact knowledge base"
 maintainers = [
     { name = "Joachim Metz", email = "joachim.metz@gmail.com" },
@@ -64,13 +64,11 @@ Documentation = "https://artifactsrc.readthedocs.io/en/latest"
 Homepage = "https://github.com/ForensicArtifacts/artifacts-kb"
 Repository = "https://github.com/ForensicArtifacts/artifacts-kb"
 
+[tool.setuptools]
+package-dir = {"artifactsrc" = "artifactsrc"}
+
 [tool.setuptools.package-data]
 artifactsrc = [
     "*.yaml",
     "data/*.yaml",
 ]
-
-[tool.setuptools.packages.find]
-where = ["."]
-include = ["artifactsrc"]
-exclude = ["docs", "tests", "tests.*", "utils"]

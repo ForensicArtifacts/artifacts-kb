@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 """Tests for the Windows Message Resource (WRC) file class."""
 
 import unittest
@@ -9,7 +8,7 @@ from artifactsrc import resource_file
 from tests import test_lib
 
 
-class TestWrcResource(object):
+class TestWrcResource:
   """Windows Resource Compiler (WRC) resource for testing.
 
   Attributes:
@@ -18,7 +17,7 @@ class TestWrcResource(object):
 
   def __init__(self):
     """Initializes a resource."""
-    super(TestWrcResource, self).__init__()
+    super().__init__()
     self.items = []
 
   # pylint: disable=invalid-name
@@ -43,7 +42,7 @@ class TestWrcResource(object):
     return self.items[index]
 
 
-class TestWrcResourceItem(object):
+class TestWrcResourceItem:
   """Windows Resource Compiler (WRC) resource item for testing.
 
   Attributes:
@@ -57,7 +56,7 @@ class TestWrcResourceItem(object):
     Args:
       identifier (int]): identifier.
     """
-    super(TestWrcResourceItem, self).__init__()
+    super().__init__()
     self.identifier = identifier
     self.resource_data = None
     self.sub_items = []
@@ -92,7 +91,7 @@ class TestWrcResourceItem(object):
     return self.resource_data
 
 
-class TestWrcStream(object):
+class TestWrcStream:
   """Windows Resource Compiler (WRC) stream for testing.
 
   Attributes:
@@ -101,7 +100,7 @@ class TestWrcStream(object):
 
   def __init__(self):
     """Initializes a stream."""
-    super(TestWrcStream, self).__init__()
+    super().__init__()
     self.resources = {}
 
   # pylint: disable=invalid-name
