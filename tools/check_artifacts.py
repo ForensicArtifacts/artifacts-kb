@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 """Script to check artifact definitions on a storage media image."""
 
 import argparse

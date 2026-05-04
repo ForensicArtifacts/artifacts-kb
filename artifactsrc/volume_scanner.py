@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """Volume scanner for artifact definitions."""
 
 import logging
@@ -23,7 +22,7 @@ from dtfabric.runtime import fabric as dtfabric_fabric
 from artifactsrc import resource_file
 
 
-class CheckResults(object):
+class CheckResults:
   """Check results.
 
   Attributes:
@@ -33,7 +32,7 @@ class CheckResults(object):
 
   def __init__(self):
     """Initializes check results."""
-    super(CheckResults, self).__init__()
+    super().__init__()
     self.data_formats = set()
     self.number_of_file_entries = 0
 
@@ -102,7 +101,7 @@ class ArtifactDefinitionsVolumeScanner(dfvfs_volume_scanner.VolumeScanner):
       mediator (Optional[dfvfs.VolumeScannerMediator]): a volume scanner
           mediator.
     """
-    super(ArtifactDefinitionsVolumeScanner, self).__init__(mediator=mediator)
+    super().__init__(mediator=mediator)
     self._ascii_codepage = 'cp1252'
     self._artifacts_registry = artifacts_registry
     self._checks_definitions = None

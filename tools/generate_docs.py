@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 """Script to generate artifact definition documentation."""
 
 import argparse
@@ -14,12 +13,12 @@ from artifacts import reader as artifacts_reader
 from artifacts import registry as artifacts_registry
 
 
-class IndexRstOutputWriter(object):
+class IndexRstOutputWriter:
   """Index.rst output writer."""
 
   def __init__(self, path):
     """Initializes an index.rst output writer."""
-    super(IndexRstOutputWriter, self).__init__()
+    super().__init__()
     self._file_object = None
     self._path = path
 
@@ -55,14 +54,14 @@ class IndexRstOutputWriter(object):
         f'   {artifact_name:s} <{artifact_name:s}>\n')
 
 
-class MarkdownOutputWriter(object):
+class MarkdownOutputWriter:
   """Markdown output writer."""
 
   _URL_PREFIX = 'https://artifacts-kb.readthedocs.io/en/latest/sources/'
 
   def __init__(self, path):
     """Initializes a Markdown output writer."""
-    super(MarkdownOutputWriter, self).__init__()
+    super().__init__()
     self._file_object = None
     self._path = path
 

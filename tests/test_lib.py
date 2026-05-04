@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """Shared test case."""
 
 import os
@@ -50,12 +49,12 @@ class BaseTestCase(unittest.TestCase):
       raise unittest.SkipTest(f'missing test file: {filename:s}')
 
 
-class TempDirectory(object):
+class TempDirectory:
   """Class that implements a temporary directory."""
 
   def __init__(self):
     """Initializes a temporary directory."""
-    super(TempDirectory, self).__init__()
+    super().__init__()
     self.name = ''
 
   def __enter__(self):
