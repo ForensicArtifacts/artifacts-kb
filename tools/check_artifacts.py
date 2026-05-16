@@ -20,153 +20,208 @@ from artifactsrc import volume_scanner
 
 
 def Main():
-  """Entry point of console script to check artifact definitions.
+    """Entry point of console script to check artifact definitions.
 
-  Returns:
-    int: exit code that is provided to sys.exit().
-  """
-  argument_parser = argparse.ArgumentParser(description=(
-      'Checks artifact definitions on a storage media image.'))
+    Returns:
+      int: exit code that is provided to sys.exit().
+    """
+    argument_parser = argparse.ArgumentParser(
+        description=("Checks artifact definitions on a storage media image.")
+    )
 
-  argument_parser.add_argument(
-      '--artifact_definitions', '--artifact-definitions',
-      dest='artifact_definitions', type=str, metavar='PATH', action='store',
-      help=('Path to a directory or file containing the artifact definition '
-            '.yaml files.'))
+    argument_parser.add_argument(
+        "--artifact_definitions",
+        "--artifact-definitions",
+        dest="artifact_definitions",
+        type=str,
+        metavar="PATH",
+        action="store",
+        help=(
+            "Path to a directory or file containing the artifact definition "
+            ".yaml files."
+        ),
+    )
 
-  argument_parser.add_argument(
-      '--back_end', '--back-end', dest='back_end', action='store',
-      metavar='NTFS', default=None, help='preferred dfVFS back-end.')
+    argument_parser.add_argument(
+        "--back_end",
+        "--back-end",
+        dest="back_end",
+        action="store",
+        metavar="NTFS",
+        default=None,
+        help="preferred dfVFS back-end.",
+    )
 
-  argument_parser.add_argument(
-      '--partitions', '--partition', dest='partitions', action='store',
-      type=str, default=None, help=(
-          'Define partitions to be processed. A range of partitions can be '
-          'defined as: "3..5". Multiple partitions can be defined as: "1,3,5" '
-          '(a list of comma separated values). Ranges and lists can also be '
-          'combined as: "1,3..5". The first partition is 1. All partitions '
-          'can be specified with: "all".'))
+    argument_parser.add_argument(
+        "--partitions",
+        "--partition",
+        dest="partitions",
+        action="store",
+        type=str,
+        default=None,
+        help=(
+            "Define partitions to be processed. A range of partitions can be "
+            'defined as: "3..5". Multiple partitions can be defined as: "1,3,5" '
+            "(a list of comma separated values). Ranges and lists can also be "
+            'combined as: "1,3..5". The first partition is 1. All partitions '
+            'can be specified with: "all".'
+        ),
+    )
 
-  argument_parser.add_argument(
-      '--snapshots', '--snapshot', dest='snapshots', action='store', type=str,
-      default=None, help=(
-          'Define snapshots to be processed. A range of snapshots can be '
-          'defined as: "3..5". Multiple snapshots can be defined as: "1,3,5" '
-          '(a list of comma separated values). Ranges and lists can also be '
-          'combined as: "1,3..5". The first snapshot is 1. All snapshots can '
-          'be specified with: "all".'))
+    argument_parser.add_argument(
+        "--snapshots",
+        "--snapshot",
+        dest="snapshots",
+        action="store",
+        type=str,
+        default=None,
+        help=(
+            "Define snapshots to be processed. A range of snapshots can be "
+            'defined as: "3..5". Multiple snapshots can be defined as: "1,3,5" '
+            "(a list of comma separated values). Ranges and lists can also be "
+            'combined as: "1,3..5". The first snapshot is 1. All snapshots can '
+            'be specified with: "all".'
+        ),
+    )
 
-  argument_parser.add_argument(
-      '--volumes', '--volume', dest='volumes', action='store', type=str,
-      default=None, help=(
-          'Define volumes to be processed. A range of volumes can be defined '
-          'as: "3..5". Multiple volumes can be defined as: "1,3,5" (a list '
-          'of comma separated values). Ranges and lists can also be combined '
-          'as: "1,3..5". The first volume is 1. All volumes can be specified '
-          'with: "all".'))
+    argument_parser.add_argument(
+        "--volumes",
+        "--volume",
+        dest="volumes",
+        action="store",
+        type=str,
+        default=None,
+        help=(
+            "Define volumes to be processed. A range of volumes can be defined "
+            'as: "3..5". Multiple volumes can be defined as: "1,3,5" (a list '
+            "of comma separated values). Ranges and lists can also be combined "
+            'as: "1,3..5". The first volume is 1. All volumes can be specified '
+            'with: "all".'
+        ),
+    )
 
-  argument_parser.add_argument(
-      '-w', '--windows_version', '--windows-version',
-      dest='windows_version', action='store', metavar='Windows XP',
-      default=None, help='string that identifies the Windows version.')
+    argument_parser.add_argument(
+        "-w",
+        "--windows_version",
+        "--windows-version",
+        dest="windows_version",
+        action="store",
+        metavar="Windows XP",
+        default=None,
+        help="string that identifies the Windows version.",
+    )
 
-  argument_parser.add_argument(
-      'source', nargs='?', action='store', metavar='image.raw',
-      default=None, help='path of the storage media image.')
+    argument_parser.add_argument(
+        "source",
+        nargs="?",
+        action="store",
+        metavar="image.raw",
+        default=None,
+        help="path of the storage media image.",
+    )
 
-  options = argument_parser.parse_args()
+    options = argument_parser.parse_args()
 
-  if not options.source:
-    print('Path to source storage media image is missing.')
-    print('')
-    argument_parser.print_help()
-    print('')
-    return 1
+    if not options.source:
+        print("Path to source storage media image is missing.")
+        print("")
+        argument_parser.print_help()
+        print("")
+        return 1
 
-  if not options.artifact_definitions:
-    print('Path to artifact definitions is missing.')
-    print('')
-    argument_parser.print_help()
-    print('')
-    return 1
+    if not options.artifact_definitions:
+        print("Path to artifact definitions is missing.")
+        print("")
+        argument_parser.print_help()
+        print("")
+        return 1
 
-  dfimagetools_helpers.SetDFVFSBackEnd(options.back_end)
+    dfimagetools_helpers.SetDFVFSBackEnd(options.back_end)
 
-  logging.basicConfig(
-      level=logging.INFO, format='[%(levelname)s] %(message)s')
+    logging.basicConfig(level=logging.INFO, format="[%(levelname)s] %(message)s")
 
-  registry = artifacts_registry.ArtifactDefinitionsRegistry()
-  reader = artifacts_reader.YamlArtifactsReader()
+    registry = artifacts_registry.ArtifactDefinitionsRegistry()
+    reader = artifacts_reader.YamlArtifactsReader()
 
-  if os.path.isdir(options.artifact_definitions):
-    registry.ReadFromDirectory(reader, options.artifact_definitions)
-  elif os.path.isfile(options.artifact_definitions):
-    registry.ReadFromFile(reader, options.artifact_definitions)
+    if os.path.isdir(options.artifact_definitions):
+        registry.ReadFromDirectory(reader, options.artifact_definitions)
+    elif os.path.isfile(options.artifact_definitions):
+        registry.ReadFromFile(reader, options.artifact_definitions)
 
-  mediator = dfvfs_command_line.CLIVolumeScannerMediator()
-  scanner = volume_scanner.ArtifactDefinitionsVolumeScanner(
-      registry, mediator=mediator)
+    mediator = dfvfs_command_line.CLIVolumeScannerMediator()
+    scanner = volume_scanner.ArtifactDefinitionsVolumeScanner(
+        registry, mediator=mediator
+    )
 
-  volume_scanner_options = dfvfs_volume_scanner.VolumeScannerOptions()
-  volume_scanner_options.partitions = mediator.ParseVolumeIdentifiersString(
-      options.partitions)
+    volume_scanner_options = dfvfs_volume_scanner.VolumeScannerOptions()
+    volume_scanner_options.partitions = mediator.ParseVolumeIdentifiersString(
+        options.partitions
+    )
 
-  if options.snapshots == 'none':
-    volume_scanner_options.snapshots = ['none']
-  else:
-    volume_scanner_options.snapshots = mediator.ParseVolumeIdentifiersString(
-        options.snapshots)
+    if options.snapshots == "none":
+        volume_scanner_options.snapshots = ["none"]
+    else:
+        volume_scanner_options.snapshots = mediator.ParseVolumeIdentifiersString(
+            options.snapshots
+        )
 
-  volume_scanner_options.volumes = mediator.ParseVolumeIdentifiersString(
-      options.volumes)
+    volume_scanner_options.volumes = mediator.ParseVolumeIdentifiersString(
+        options.volumes
+    )
 
-  try:
-    if not scanner.ScanForOperatingSystemVolumes(
-        options.source, options=volume_scanner_options):
-      print((f'Unable to retrieve an operating system volume from: '
-             f'{options.source:s}.'))
-      print('')
-      return 1
+    try:
+        if not scanner.ScanForOperatingSystemVolumes(
+            options.source, options=volume_scanner_options
+        ):
+            print(
+                (
+                    f"Unable to retrieve an operating system volume from: "
+                    f"{options.source:s}."
+                )
+            )
+            print("")
+            return 1
 
-    definitions_with_check_results = {}
-    for artifact_definition in registry.GetDefinitions():
-      group_only = True
-      for source in artifact_definition.sources:
-        if source.type_indicator != (
-            artifacts_definitions.TYPE_INDICATOR_ARTIFACT_GROUP):
-          group_only = False
-          break
+        definitions_with_check_results = {}
+        for artifact_definition in registry.GetDefinitions():
+            group_only = True
+            for source in artifact_definition.sources:
+                if source.type_indicator != (
+                    artifacts_definitions.TYPE_INDICATOR_ARTIFACT_GROUP
+                ):
+                    group_only = False
+                    break
 
-      if group_only:
-        # Not interested in results of group-only artifact definitions.
-        continue
+            if group_only:
+                # Not interested in results of group-only artifact definitions.
+                continue
 
-      check_result = scanner.CheckArtifactDefinition(artifact_definition)
-      if check_result.number_of_file_entries:
-        definitions_with_check_results[artifact_definition.name] = check_result
+            check_result = scanner.CheckArtifactDefinition(artifact_definition)
+            if check_result.number_of_file_entries:
+                definitions_with_check_results[artifact_definition.name] = check_result
 
-  except dfvfs_errors.ScannerError as exception:
-    print(f'[ERROR] {exception!s}', file=sys.stderr)
-    print('')
-    return 1
+    except dfvfs_errors.ScannerError as exception:
+        print(f"[ERROR] {exception!s}", file=sys.stderr)
+        print("")
+        return 1
 
-  except KeyboardInterrupt:
-    print('Aborted by user.', file=sys.stderr)
-    print('')
-    return 1
+    except KeyboardInterrupt:
+        print("Aborted by user.", file=sys.stderr)
+        print("")
+        return 1
 
-  print('Aritfact definitions found:')
-  for name, check_result in sorted(definitions_with_check_results.items()):
-    text = f'* {name:s} [results: {check_result.number_of_file_entries:d}]'
-    if check_result.data_formats:
-      formats_string = ', '.join(sorted(check_result.data_formats))
-      text = f'{text:s} [formats: {formats_string:s}]'
+    print("Aritfact definitions found:")
+    for name, check_result in sorted(definitions_with_check_results.items()):
+        text = f"* {name:s} [results: {check_result.number_of_file_entries:d}]"
+        if check_result.data_formats:
+            formats_string = ", ".join(sorted(check_result.data_formats))
+            text = f"{text:s} [formats: {formats_string:s}]"
 
-    print(text)
-  print('')
+        print(text)
+    print("")
 
-  return 0
+    return 0
 
 
-if __name__ == '__main__':
-  sys.exit(Main())
+if __name__ == "__main__":
+    sys.exit(Main())
