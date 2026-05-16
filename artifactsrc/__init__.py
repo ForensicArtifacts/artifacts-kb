@@ -1,3 +1,3 @@
 """ForensicArtifacts.com Artifact Repository resources."""
 
-__version__ = '20260411'
+__version__ = "20260411"
