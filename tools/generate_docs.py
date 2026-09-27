@@ -81,7 +81,7 @@ class MarkdownOutputWriter:
         """Writes an artifact definition to a Markdown file.
 
         Args:
-          artifact_definition (list[artifacs.ArtifactDefinition]): artifact
+          artifact_definition (list[artifacts.ArtifactDefinition]): artifact
               definition.
         """
         lines = [
@@ -90,7 +90,6 @@ class MarkdownOutputWriter:
             artifact_definition.description,
             "",
         ]
-
         for source in sorted(
             artifact_definition.sources, key=lambda source: source.supported_os
         ):
@@ -98,11 +97,9 @@ class MarkdownOutputWriter:
                 artifacts_definitions.TYPE_INDICATOR_FILE,
                 artifacts_definitions.TYPE_INDICATOR_PATH,
             ):
-
                 supported_os = ", ".join(
                     source.supported_os or artifact_definition.supported_os
                 )
-
                 lines.extend([f"Paths on: {supported_os:s}", "", "```"])
 
                 for path in sorted(source.paths):
@@ -144,7 +141,6 @@ def Main():
     argument_parser = argparse.ArgumentParser(
         description=("Generated artifact definition documentation.")
     )
-
     argument_parser.add_argument(
         "--artifact_definitions",
         "--artifact-definitions",
@@ -153,11 +149,10 @@ def Main():
         metavar="PATH",
         action="store",
         help=(
-            "Path to a directory or file containing the artifact definition "
-            ".yaml files."
+            "Path to a directory or file containing the artifact definition .yaml "
+            "files."
         ),
     )
-
     options = argument_parser.parse_args()
 
     artifact_definitions = options.artifact_definitions

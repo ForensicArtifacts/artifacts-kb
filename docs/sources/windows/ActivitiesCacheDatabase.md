@@ -17,7 +17,7 @@ The Windows activity history can be used to determine system and user activity.
 On-disk the Windows activity history is stored in a Activities Cache database.
 This SQLite database can be found in the following path:
 
-```
+```text
 C:\Users\%USERNAME%\AppData\Local\ConnectedDevicesPlatform\L.%USERNAME%\ActivitiesCache.db
 ```
 
@@ -27,6 +27,10 @@ Windows activity history databases were first observed on Windows 10 1803.
 
 ### References
 
+<!-- typos:disable -->
+
 * [Windows 10 activity history and your privacy](https://support.microsoft.com/en-us/windows/windows-activity-history-and-your-privacy-2b279964-44ec-8c2f-e0c2-6779b07d2cbd)
 * [Windows 10 Timeline – Initial Review of Forensic Artefacts](https://salt4n6.com/2018/05/03/windows-10-timeline-forensic-artefacts/)
 * [An examination of Win10 ActivitiesCache.db database](https://kacos2000.github.io/WindowsTimeline/WindowsTimeline.pdf)
+
+<!-- typos:enable -->

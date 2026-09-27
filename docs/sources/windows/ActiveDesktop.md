@@ -5,7 +5,7 @@ support for HTML content on the desktop, along with other features.
 
 ### Significance
 
-Malware is known to use Active Desktop settings and components for persitence.
+Malware is known to use Active Desktop settings and components for persistence.
 
 ### Settings
 
