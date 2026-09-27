@@ -6,7 +6,7 @@
 ---
 name: binary_plist
 type: format
-description: Binary property list fomat
+description: Binary property list format
 attributes:
   byte_order: little-endian
 layout:

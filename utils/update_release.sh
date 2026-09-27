@@ -3,9 +3,6 @@
 # Script that makes changes in preparation of a new release, such as updating
 # the version and documentation.
 
-EXIT_FAILURE=1;
-EXIT_SUCCESS=0;
-
 VERSION=$(date -u +"%Y%m%d")
 
 # Update the Python module version.
@@ -19,6 +16,3 @@ find . -name \*.py -exec sed '1s?^#!.*$?#!/usr/bin/env python3?' -i {} \;
 
 # Regenerate the API documentation.
 tox -edocs
-
-exit ${EXIT_SUCCESS};
-

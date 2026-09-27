@@ -28,7 +28,6 @@ def Main():
     argument_parser = argparse.ArgumentParser(
         description=("Checks artifact definitions on a storage media image.")
     )
-
     argument_parser.add_argument(
         "--artifact_definitions",
         "--artifact-definitions",
@@ -41,7 +40,6 @@ def Main():
             ".yaml files."
         ),
     )
-
     argument_parser.add_argument(
         "--back_end",
         "--back-end",
@@ -51,7 +49,6 @@ def Main():
         default=None,
         help="preferred dfVFS back-end.",
     )
-
     argument_parser.add_argument(
         "--partitions",
         "--partition",
@@ -67,7 +64,6 @@ def Main():
             'can be specified with: "all".'
         ),
     )
-
     argument_parser.add_argument(
         "--snapshots",
         "--snapshot",
@@ -83,7 +79,6 @@ def Main():
             'be specified with: "all".'
         ),
     )
-
     argument_parser.add_argument(
         "--volumes",
         "--volume",
@@ -99,7 +94,6 @@ def Main():
             'with: "all".'
         ),
     )
-
     argument_parser.add_argument(
         "-w",
         "--windows_version",
@@ -110,7 +104,6 @@ def Main():
         default=None,
         help="string that identifies the Windows version.",
     )
-
     argument_parser.add_argument(
         "source",
         nargs="?",
@@ -119,7 +112,6 @@ def Main():
         default=None,
         help="path of the storage media image.",
     )
-
     options = argument_parser.parse_args()
 
     if not options.source:
@@ -152,12 +144,10 @@ def Main():
     scanner = volume_scanner.ArtifactDefinitionsVolumeScanner(
         registry, mediator=mediator
     )
-
     volume_scanner_options = dfvfs_volume_scanner.VolumeScannerOptions()
     volume_scanner_options.partitions = mediator.ParseVolumeIdentifiersString(
         options.partitions
     )
-
     if options.snapshots == "none":
         volume_scanner_options.snapshots = ["none"]
     else:
@@ -168,16 +158,13 @@ def Main():
     volume_scanner_options.volumes = mediator.ParseVolumeIdentifiersString(
         options.volumes
     )
-
     try:
         if not scanner.ScanForOperatingSystemVolumes(
             options.source, options=volume_scanner_options
         ):
             print(
-                (
-                    f"Unable to retrieve an operating system volume from: "
-                    f"{options.source:s}."
-                )
+                f"Unable to retrieve an operating system volume from: "
+                f"{options.source:s}."
             )
             print("")
             return 1
@@ -210,7 +197,7 @@ def Main():
         print("")
         return 1
 
-    print("Aritfact definitions found:")
+    print("Artifact definitions found:")
     for name, check_result in sorted(definitions_with_check_results.items()):
         text = f"* {name:s} [results: {check_result.number_of_file_entries:d}]"
         if check_result.data_formats:
